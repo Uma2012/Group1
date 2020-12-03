@@ -11,7 +11,7 @@ namespace Product.Service.Models
         public string Name { get; set; }
         public int Quantity { get; set; }
         public double Price { get; set; }
-        public string ImageUrl { get; set; } = @"..\Group1\Product.Service\Images\Good_Food.jpg";
+        public string ImageUrl { get; set; }
         public string Description { get; set; }
     }
 }
