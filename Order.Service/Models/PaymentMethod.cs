@@ -8,7 +8,7 @@ namespace Order.Service.Models
     public class PaymentMethod
     {
         public int Id { get; set; }
-        public int OrderId { get; set; }
+        public List<Order> Orders { get; set; }
         public string Name { get; set; }
     }
 }
