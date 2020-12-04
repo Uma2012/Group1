@@ -9,8 +9,8 @@ using Product.Service.Context;
 namespace Product.Service.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20201203143219_ProductDbMigration2")]
-    partial class ProductDbMigration2
+    [Migration("20201204085426_Db")]
+    partial class Db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
