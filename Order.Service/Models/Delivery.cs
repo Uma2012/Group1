@@ -8,7 +8,7 @@ namespace Order.Service.Models
     public class Delivery
     {
         public int Id { get; set; }
-        public int OrderId { get; set; }
+        public List<Order> Orders { get; set; }
         public int Name { get; set; }
         public double Price { get; set; }
     }
