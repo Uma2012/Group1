@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Order.Service.Context;
 
 namespace Order.Service.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    partial class OrderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201206105108_AddingData_Payment_Delivery")]
+    partial class AddingData_Payment_Delivery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,13 +42,13 @@ namespace Order.Service.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Homedelivery",
+                            Name = "homedelivery",
                             Price = 50.0
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Takeaway",
+                            Name = "takeaway",
                             Price = 0.0
                         });
                 });
@@ -65,9 +67,6 @@ namespace Order.Service.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("DeliveryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("PaymentId")
@@ -109,12 +108,12 @@ namespace Order.Service.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Swish"
+                            Name = "swish"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Card"
+                            Name = "card"
                         });
                 });
 

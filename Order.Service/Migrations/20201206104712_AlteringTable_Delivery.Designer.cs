@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Order.Service.Context;
 
 namespace Order.Service.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    partial class OrderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201206104712_AlteringTable_Delivery")]
+    partial class AlteringTable_Delivery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,20 +37,6 @@ namespace Order.Service.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Deliveries");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Homedelivery",
-                            Price = 50.0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Takeaway",
-                            Price = 0.0
-                        });
                 });
 
             modelBuilder.Entity("Order.Service.Models.Order", b =>
@@ -65,9 +53,6 @@ namespace Order.Service.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("DeliveryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("PaymentId")
@@ -104,18 +89,6 @@ namespace Order.Service.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PaymentMethods");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Swish"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Card"
-                        });
                 });
 
             modelBuilder.Entity("Order.Service.Models.Product", b =>
