@@ -15,7 +15,20 @@ namespace Order.Service.Repositories
         }
         public Models.Order CreateOrder(Models.Order order)
         {
-            throw new NotImplementedException();
+            if (order.ProductId != 0)
+            {
+                try
+                {
+                    _context.Orders.Add(order);
+                    _context.SaveChanges();
+                    return order;
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+            return null;
         }
 
         public bool DeleteOrder(int id)
