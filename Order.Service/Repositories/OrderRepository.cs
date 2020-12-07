@@ -1,13 +1,14 @@
-﻿namespace Order.Service.Repositories
-{
-    using Order.Service.Context;
-    using System.Collections.Generic;
-    using System.Linq;
+using Order.Service.Context;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
+namespace Order.Service.Repositories
+{
     public class OrderRepository : IOrderRepository
     {
         private readonly OrderDbContext _context;
-
         public OrderRepository(OrderDbContext context)
         {
             _context = context;

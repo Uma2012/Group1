@@ -1,4 +1,4 @@
-﻿namespace Order.Service.Controllers
+namespace Order.Service.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Order.Service.Repositories;
