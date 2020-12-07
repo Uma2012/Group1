@@ -1,4 +1,5 @@
 using Group1.Data;
+using Group1.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -26,6 +27,12 @@ namespace Group1
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+          
+            services.AddSingleton<ProductServiceHandler>();
+
+            services.AddHttpClient();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

@@ -18,6 +18,7 @@ namespace Product.Service
 {
     public class Startup
     {
+        private readonly string _corsePolicyString = "ProductService";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,6 +29,14 @@ namespace Product.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_corsePolicyString,
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44309"); // The url to our web project that will be making requests to this project
+                    });
+            });
             services.AddControllers();
 
             services.AddDbContext<ProductDbContext>(options =>
