@@ -22,5 +22,17 @@ namespace Product.Service.Controllers
             var products = _productRepository.GetAll();
             return Ok(products);
         }
+
+        [HttpGet]
+        public ActionResult<Models.Product> GetOne(int id)
+        {
+            var product = _productRepository.GetById(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+        }
     }
 }
