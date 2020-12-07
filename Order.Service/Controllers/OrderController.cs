@@ -1,42 +1,43 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Order.Service.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Order.Service.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Order.Service.Repositories;
+
     [Route("api/[controller]/[Action]")]
-    public class OrderController : Controller
+    [ApiController]
+    public class OrderController : ControllerBase
     {
         private readonly IOrderRepository _orderRepository;
-        public OrderController(IOrderRepository orderRepository)
-        { 
+
+        public OrderController(OrderRepository orderRepository)
+        {
             _orderRepository = orderRepository;
         }
 
+        [HttpGet]
+        public ActionResult<Models.Order> GetOne(int id)
+        {
+            var order = _orderRepository.GetById(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
+        }
+
+        [HttpGet]
+        public ActionResult<Models.Order> GetByDeliveryStatus(bool deliveryStatus)
+        {
+            var orders = _orderRepository.GetByDeliveryStatus(deliveryStatus);
+
+            return Ok(orders);
+        }
+
         [HttpPost]
-        public ActionResult<Models.Order> CreateOrder([FromBody]Models.Order order)
+        public ActionResult<Models.Order> Create([FromBody] Models.Order order)
         {
-            
-            var createOrder = _orderRepository.CreateOrder(order);
-            if (createOrder  != null)
-                return Ok(createOrder);
-            else
-                return BadRequest();
+            var createdOrder = _orderRepository.Create(order);
+            return Ok(createdOrder);
         }
-
-        [HttpDelete]
-        public ActionResult<int> DeleteOrder(int id)
-        {
-            var IsDeleted = _orderRepository.DeleteOrder(id);
-            if (IsDeleted)
-                return Ok(id);
-            else
-                return NotFound(id);
-
-        }
-
     }
 }

@@ -1,4 +1,4 @@
-﻿using Order.Service.Context;
+using Order.Service.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,37 +13,28 @@ namespace Order.Service.Repositories
         {
             _context = context;
         }
-        public Models.Order CreateOrder(Models.Order order)
+
+        public Models.Order GetById(int id)
         {
-            if (order.ProductId != 0)
-            {
-                try
-                {
-                    _context.Orders.Add(order);
-                    _context.SaveChanges();
-                    return order;
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
-            }
-            return null;
+
+            var order = _context.Orders.FirstOrDefault(x => x.Id == id);
+
+            return order;
         }
 
-        public bool DeleteOrder(int id)
+        public List<Models.Order> GetByDeliveryStatus(bool deliveryStatus)
         {
-            throw new NotImplementedException();
+            var orders = _context.Orders.Where(x => x.Deliverd == deliveryStatus).ToList();
+
+            return orders;
         }
 
-        public Models.Order GetOrderById(int orderId)
+        public Models.Order Create(Models.Order order)
         {
-            throw new NotImplementedException();
-        }
+            _context.Orders.Add(order);
+            _context.SaveChanges();
 
-        //public Models.Order UpdateOrder(Models.Order order)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            return order;
+        }
     }
 }
