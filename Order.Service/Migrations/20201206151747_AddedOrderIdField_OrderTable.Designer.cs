@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Order.Service.Context;
 
 namespace Order.Service.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    partial class OrderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201206151747_AddedOrderIdField_OrderTable")]
+    partial class AddedOrderIdField_OrderTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,9 +76,6 @@ namespace Order.Service.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("PaymentMethodId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<double>("TotalPrice")
