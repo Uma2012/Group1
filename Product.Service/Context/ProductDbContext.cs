@@ -57,7 +57,7 @@ namespace Product.Service.Context
                     Name = "Frozen lasagna",
                     Price = 125,
                     Quantity = 20,
-                    ImageUrl = @"/Images/Images/Lasagna.jpg",
+                    ImageUrl = @"/Images/Lasagna.jpg",
                     Description = "Description"
                 },
                 new Models.Product()
