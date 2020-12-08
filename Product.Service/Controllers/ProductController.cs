@@ -24,6 +24,7 @@ namespace Product.Service.Controllers
             return Ok(products);
         }
 
+
         [HttpGet]
         public ActionResult<Models.Product> GetOne(int id)
         {

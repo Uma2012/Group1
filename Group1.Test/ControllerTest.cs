@@ -1,5 +1,6 @@
 using ProductsService.Tests;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -20,15 +21,30 @@ namespace Products.Service.Tests
             }
         }
         [Fact]
-        public async Task GetOneProductById_ReturnsProduct()
+        public async Task GetEmptyId_Returns_NOTFOUND()
         {
-            int Id = 1;
             using (var client = new TestClientProvider().Client)
             {
-                var response = await client.GetAsync("/api/product/getbyid");
-                response.EnsureSuccessStatusCode();
-                Assert.Equal(Id, product.Id);
+                var response = await client.GetAsync($"/api/product/getone");
+                Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
             }
         }
+        [Fact]
+        public async Task GetProductById_Returns_ProductId()
+        {
+            using (var client = new TestClientProvider().Client)
+            {
+                var productsResponse = await client.GetAsync($"/api/product/getone?id=1");
+
+                using (var responseStream = await productsResponse.Content.ReadAsStreamAsync())
+                {
+                    var product = await System.Text.Json.JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(responseStream,
+                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                    Assert.Equal(1, product.Id);
+                }
+            }
+        }
+
     }
 }
