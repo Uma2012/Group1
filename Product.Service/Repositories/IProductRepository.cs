@@ -9,5 +9,7 @@ namespace ProductsService.Models
     {
         public List<Product.Service.Models.Product> GetAll();
         public Product.Service.Models.Product GetById(int id);
+        public Product.Service.Models.Product Create(Product.Service.Models.Product product);
+
     }
 }

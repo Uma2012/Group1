@@ -27,5 +27,13 @@ namespace ProductsService.Models
 
             return product;
         }
+
+        public Product.Service.Models.Product Create(Product.Service.Models.Product product)
+        {
+            _context.Products.Add(product);
+            _context.SaveChanges();
+
+            return product;
+        }
     }
 }
