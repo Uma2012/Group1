@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace Product.Service.Controllers
 {
     [Route("api/[controller]/[Action]")]
+    [ApiController]
     public class ProductController : ControllerBase
     {
         IProductRepository _productRepository;
@@ -34,5 +35,13 @@ namespace Product.Service.Controllers
             }
             return Ok(product);
         }
+
+        [HttpPost]
+        public ActionResult<Models.Product> CreateProduct([FromBody] Models.Product product)
+        {
+            var createdProduct = _productRepository.Create(product);
+            return Ok(product);
+        }
+
     }
 }

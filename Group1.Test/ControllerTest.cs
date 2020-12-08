@@ -19,5 +19,16 @@ namespace Products.Service.Tests
                 Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             }
         }
+        [Fact]
+        public async Task GetOneProductById_ReturnsProduct()
+        {
+            int Id = 1;
+            using (var client = new TestClientProvider().Client)
+            {
+                var response = await client.GetAsync("/api/product/getbyid");
+                response.EnsureSuccessStatusCode();
+                Assert.Equal(Id, product.Id);
+            }
+        }
     }
 }
