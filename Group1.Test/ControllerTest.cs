@@ -1,5 +1,7 @@
 using ProductsService.Tests;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
@@ -21,7 +23,7 @@ namespace Products.Service.Tests
             }
         }
         [Fact]
-        public async Task GetEmptyId_Returns_NOTFOUND()
+        public async Task GetEmptyId_Returns_NotFound()
         {
             using (var client = new TestClientProvider().Client)
             {
@@ -45,6 +47,36 @@ namespace Products.Service.Tests
                 }
             }
         }
+        [Fact]
+        public async Task CreateProduct_Returns_CreatedProductId()
+        {
+            using (var client = new TestClientProvider().Client)
+            {
 
+                var payload = JsonSerializer.Serialize(new Product.Service.Models.Product()
+
+                {
+                    Name = "Testprodukt",
+                    Quantity = 1,
+                    Price = 15,
+                    ImageUrl = "https://www.medistore.se/PICTURE/test_produkt.png",
+                    Description = "Detta är en testprodukt"
+                }
+                    );
+
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync($"/api/product/createproduct", content);
+
+                using (var responseStream = await response.Content.ReadAsStreamAsync())
+                {
+                    var product = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(responseStream,
+                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                    Assert.NotNull(product);
+                    Assert.NotEqual(0, product.Id);
+                }
+            }
+        }
     }
 }

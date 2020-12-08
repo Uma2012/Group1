@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProductsService.Models;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,6 @@ namespace Product.Service.Controllers
             return Ok(products);
         }
 
-
         [HttpGet]
         public ActionResult<Models.Product> GetOne(int id)
         {
@@ -38,11 +38,15 @@ namespace Product.Service.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Models.Product> CreateProduct([FromBody] Models.Product product)
+        public ActionResult<Models.Product> CreateProduct(Models.Product product)
         {
             var createdProduct = _productRepository.Create(product);
+            if (createdProduct == null)
+            {
+                return BadRequest();
+            }
+
             return Ok(product);
         }
-
     }
 }
