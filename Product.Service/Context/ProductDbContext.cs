@@ -39,7 +39,7 @@ namespace Product.Service.Context
                     Name="Frozen cheescake",
                     Price= 50,
                     Quantity= 10,
-                    ImageUrl = @"..\Group1\Product.Service\Images\Frozen Cheesecake.jpg",
+                    ImageUrl = @"/Images/Frozen Cheesecake.jpg",
                     Description ="Description" 
                 },
                 new Models.Product()
@@ -48,7 +48,7 @@ namespace Product.Service.Context
                     Name = "Frozen pizza",
                     Price = 75,
                     Quantity = 15,
-                    ImageUrl = @"..\Group1\Product.Service\Images\Pizza.jpg",
+                    ImageUrl = @"/Images/Pizza.jpg",
                     Description = "Description"
                 },
                 new Models.Product()
@@ -57,7 +57,7 @@ namespace Product.Service.Context
                     Name = "Frozen lasagna",
                     Price = 125,
                     Quantity = 20,
-                    ImageUrl = @"..\Group1\Product.Service\Images\Lasagna.jpg",
+                    ImageUrl = @"/Images/Images/Lasagna.jpg",
                     Description = "Description"
                 },
                 new Models.Product()
@@ -66,7 +66,7 @@ namespace Product.Service.Context
                     Name = "Frozen salmon",
                     Price = 280,
                     Quantity = 10,
-                    ImageUrl = @"..\Group1\Product.Service\Images\Salmon.jpg",
+                    ImageUrl = @"/Images/Salmon.jpg",
                     Description = "Description"
                 },
                 new Models.Product()
@@ -75,7 +75,7 @@ namespace Product.Service.Context
                     Name = "Frozen phad thai",
                     Price = 75,
                     Quantity = 15,
-                    ImageUrl = @"..\Group1\Product.Service\Images\Chicken Pad Thai.jpg",
+                    ImageUrl = @"/Images/Chicken Pad Thai.jpg",
                     Description = "Description"
                 }
                 );
