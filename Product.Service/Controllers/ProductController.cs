@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProductsService.Models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace Product.Service.Controllers
 {
     [Route("api/[controller]/[Action]")]
+    [ApiController]
     public class ProductController : ControllerBase
     {
         IProductRepository _productRepository;
@@ -21,6 +23,30 @@ namespace Product.Service.Controllers
         {
             var products = _productRepository.GetAll();
             return Ok(products);
+        }
+
+        [HttpGet]
+        public ActionResult<Models.Product> GetOne(int id)
+        {
+            var product = _productRepository.GetById(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+        }
+
+        [HttpPost]
+        public ActionResult<Models.Product> CreateProduct(Models.Product product)
+        {
+            var createdProduct = _productRepository.Create(product);
+            if (createdProduct == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(product);
         }
     }
 }

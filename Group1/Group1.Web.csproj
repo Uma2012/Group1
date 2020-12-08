@@ -1,9 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>aspnet-Group1-62F52E74-7836-4018-A5EE-E5F3BFC02FBB</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Images\Chicken Pad Thai.jpg" />
+    <Content Remove="wwwroot\Images\Frozen Cheesecake.jpg" />
+    <Content Remove="wwwroot\Images\Lasagna.jpg" />
+    <Content Remove="wwwroot\Images\Pizza.jpg" />
+    <Content Remove="wwwroot\Images\Salmon.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\Chicken Pad Thai.jpg" />
+    <None Include="wwwroot\Images\Frozen Cheesecake.jpg" />
+    <None Include="wwwroot\Images\Lasagna.jpg" />
+    <None Include="wwwroot\Images\Pizza.jpg" />
+    <None Include="wwwroot\Images\Salmon.jpg" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.0" />
@@ -14,6 +30,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

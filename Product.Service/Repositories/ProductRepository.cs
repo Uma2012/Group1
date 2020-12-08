@@ -20,5 +20,20 @@ namespace ProductsService.Models
 
             return products;
         }
+
+        public Product.Service.Models.Product GetById(int id)
+        {
+            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+
+            return product;
+        }
+
+        public Product.Service.Models.Product Create(Product.Service.Models.Product product)
+        {
+            _context.Products.Add(product);
+            _context.SaveChanges();
+
+            return product;
+        }
     }
 }
