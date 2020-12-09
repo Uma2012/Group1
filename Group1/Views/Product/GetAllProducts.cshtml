@@ -7,14 +7,14 @@
 <div class="card-deck" style="justify-content: center">
     @foreach (var item in Model)
     {
-        <div class="card" style="min-width: 250px; max-width: 250px; margin:5px;">
-            <img class="card-img-top" src="@Url.Content(item.ImageUrl)" alt="@item.Name" style="height:230px;">
-            <div class="card-body text-center">
-                <h4 class="card-title">@item.Name</h4>
-                <p class="card-text">@item.Price SEK</p>
-                <a href="#" class="btn btn-primary">Go to product</a>
-            </div>
+    <div class="card" style="min-width: 250px; max-width: 250px; margin:5px;">
+        <a asp-controller="Product" asp-action="GetOneProduct" asp-route-productid="@item.Id"><img class="card-img-top" src="@Url.Content(item.ImageUrl)" alt="@item.Name" style="height:230px;"></a>
+        <div class="card-body text-center">
+            <h4 class="card-title">@item.Name</h4>
+            <p class="card-text">@item.Price SEK</p>
+            <a href="#" class="btn btn-primary">Go to product</a>
         </div>
+    </div>
     }
 </div>
 
