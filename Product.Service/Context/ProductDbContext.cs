@@ -40,7 +40,7 @@ namespace Product.Service.Context
                     Price= 50,
                     Quantity= 10,
                     ImageUrl = @"/Images/Frozen Cheesecake.jpg",
-                    Description ="Description" 
+                    Description ="Frozen Cheesecake with blueberries. Contains gluten, milk and eggs." 
                 },
                 new Models.Product()
                 {
@@ -49,7 +49,7 @@ namespace Product.Service.Context
                     Price = 75,
                     Quantity = 15,
                     ImageUrl = @"/Images/Pizza.jpg",
-                    Description = "Description"
+                    Description = "Frozen Margherita. A lovely vegeterian pizza with tomatosauce and mozarellacheese. Contains gluten and milk."
                 },
                 new Models.Product()
                 {
@@ -58,7 +58,7 @@ namespace Product.Service.Context
                     Price = 125,
                     Quantity = 20,
                     ImageUrl = @"/Images/Lasagna.jpg",
-                    Description = "Description"
+                    Description = "Frozen Lasagna. Just heat it up in the oven. Conatains gluten, milk and eggs."
                 },
                 new Models.Product()
                 {
@@ -67,7 +67,7 @@ namespace Product.Service.Context
                     Price = 280,
                     Quantity = 10,
                     ImageUrl = @"/Images/Salmon.jpg",
-                    Description = "Description"
+                    Description = "A Lovely bite of salmon, already prepped with spices. The product picture is a servingtip."
                 },
                 new Models.Product()
                 {
@@ -76,7 +76,7 @@ namespace Product.Service.Context
                     Price = 75,
                     Quantity = 15,
                     ImageUrl = @"/Images/Chicken Pad Thai.jpg",
-                    Description = "Description"
+                    Description = "Frozen phad thai with chicken, spices, herbs and noodles. Heat up, add peanuts and it's ready to go. Contains egg and gluten."
                 }
                 );
         }
