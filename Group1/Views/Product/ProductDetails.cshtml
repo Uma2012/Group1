@@ -1,0 +1,23 @@
+﻿@*PREPPED THE VIEW. COMMENT IN WHEN NEEDED.
+    @model IEnumerable<Group1.Web.Models.Product>
+
+    @{
+        ViewData["Title"] = "Details";
+    }
+    <center>
+        <h1>Details</h1>
+
+        <div>
+            <h4>@Model.Name</h4>
+            <hr />
+            <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Name" style="width:300px;"><br />
+            <b>Price: </b>@Model.Price SEK<br />
+            <b>Description: </b>@Model.Description<br />
+
+        </div>
+        <div>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit | </a>
+                <a asp-action="Index">Back to List</a>
+        </div>
+    </center>
+*@
