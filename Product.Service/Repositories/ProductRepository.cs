@@ -35,5 +35,13 @@ namespace ProductsService.Models
 
             return product;
         }
+        public Product.Service.Models.Product Delete(Product.Service.Models.Product product)
+        {
+            _context.Products.Remove(product);
+            _context.SaveChanges();
+
+            return product;
+        }
+
     }
 }
