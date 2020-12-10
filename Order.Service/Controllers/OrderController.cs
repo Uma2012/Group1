@@ -1,6 +1,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Order.Service.Models;
 using Order.Service.Repositories;
+using System.Collections.Generic;
 
 namespace Order.Service.Controllers
 {
@@ -44,5 +45,16 @@ namespace Order.Service.Controllers
             else
                 return BadRequest();
         }
+
+        //[HttpPost]
+        //public ActionResult<Models.OrderItem> CreateOrderItem(List<Models.OrderItem> orderItems)
+        //{
+        //    var createdOrder = _orderRepository.Create(order);
+        //    if (createdOrder != null)
+        //        return Ok(createdOrder);
+        //    else
+        //        return BadRequest();
+        //}
+
     }
 }

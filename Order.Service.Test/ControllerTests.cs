@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -13,18 +14,19 @@ namespace Order.Service.Test
         [Fact]
         public async Task CreateOrder_Returns_CreatedOrder()
         {
+            int createdorderId = 0;
             using (var client = new TestClientProvider().Client)
             {
 
                 var payload = JsonSerializer.Serialize(new Models.Order()
-                {
-                    Id = 1,
+                {                  
                     UserId = 1,
                     DeliveryId = 1,
                     OrderDate = DateTime.Now,
                     PaymentId = 1,
                     Deliverd = false,
-                    TotalPrice=200
+                    TotalPrice=200                    
+                    
                 }
                     );
 
@@ -40,10 +42,35 @@ namespace Order.Service.Test
                     //Assert.NotNull(order);
                     //Assert.NotEqual(0, order.Id);
                     //response.EnsureSuccessStatusCode();
+                    createdorderId = order.Id;
 
                     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
                 }
+
+                var payload1 = JsonSerializer.Serialize(new List<Models.OrderItem>()
+
+                { 
+                    new Models.OrderItem() {OrderId=createdorderId,ProductId=1,Quantity=2 },
+                    new Models.OrderItem() {OrderId=createdorderId,ProductId=2,Quantity=1 }
+
+                }
+                );
+                HttpContent content1 = new StringContent(payload1, Encoding.UTF8, "application/json");
+
+                var response1 = await client.PostAsync($"/api/order/CreateOrderItem", content1);
+
+                using (var responseStream = await response.Content.ReadAsStreamAsync())
+                {
+                    var orderItem = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
+                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });                  
+                    
+
+                    Assert.Equal(HttpStatusCode.OK, response1.StatusCode);
+
+                }
+
+
 
             }
         }
