@@ -34,7 +34,7 @@ namespace Order.Service.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Models.Order> Create([FromBody] Models.Order order)
+        public ActionResult<Models.Order> CreateOrder(Models.Order order)
         {
             var createdOrder = _orderRepository.Create(order);
             return Ok(createdOrder);
