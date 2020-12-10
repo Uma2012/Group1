@@ -23,7 +23,7 @@ namespace Products.Service.Tests
             }
         }
         [Fact]
-        public async Task GetEmptyId_Returns_NotFound()
+        public async Task GetProductById_Returns_NotFound()
         {
             using (var client = new TestClientProvider().Client)
             {
@@ -80,3 +80,4 @@ namespace Products.Service.Tests
         }
     }
 }
+

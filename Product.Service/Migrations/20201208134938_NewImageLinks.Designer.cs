@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Product.Service.Context;
 
 namespace Product.Service.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    partial class ProductDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201208134938_NewImageLinks")]
+    partial class NewImageLinks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +52,7 @@ namespace Product.Service.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Frozen Cheesecake with blueberries. Contains gluten, milk and eggs.",
+                            Description = "Description",
                             ImageUrl = "/Images/Frozen Cheesecake.jpg",
                             Name = "Frozen cheescake",
                             Price = 50.0,
@@ -59,7 +61,7 @@ namespace Product.Service.Migrations
                         new
                         {
                             Id = 2,
-                            Description = "Frozen Margherita. A lovely vegeterian pizza with tomatosauce and mozarellacheese. Contains gluten and milk.",
+                            Description = "Description",
                             ImageUrl = "/Images/Pizza.jpg",
                             Name = "Frozen pizza",
                             Price = 75.0,
@@ -68,8 +70,8 @@ namespace Product.Service.Migrations
                         new
                         {
                             Id = 3,
-                            Description = "Frozen Lasagna. Just heat it up in the oven. Conatains gluten, milk and eggs.",
-                            ImageUrl = "/Images/Lasagna.jpg",
+                            Description = "Description",
+                            ImageUrl = "/Images/Images/Lasagna.jpg",
                             Name = "Frozen lasagna",
                             Price = 125.0,
                             Quantity = 20
@@ -77,7 +79,7 @@ namespace Product.Service.Migrations
                         new
                         {
                             Id = 4,
-                            Description = "A Lovely bite of salmon, already prepped with spices. The product picture is a servingtip.",
+                            Description = "Description",
                             ImageUrl = "/Images/Salmon.jpg",
                             Name = "Frozen salmon",
                             Price = 280.0,
@@ -86,7 +88,7 @@ namespace Product.Service.Migrations
                         new
                         {
                             Id = 5,
-                            Description = "Frozen phad thai with chicken, spices, herbs and noodles. Heat up, add peanuts and it's ready to go. Contains egg and gluten.",
+                            Description = "Description",
                             ImageUrl = "/Images/Chicken Pad Thai.jpg",
                             Name = "Frozen phad thai",
                             Price = 75.0,

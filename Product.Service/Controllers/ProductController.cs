@@ -48,5 +48,16 @@ namespace Product.Service.Controllers
 
             return Ok(product);
         }
+
+        [HttpDelete]
+        public ActionResult<Models.Product> DeleteProduct(Models.Product product)
+        {
+            var deletedProduct = _productRepository.Delete(product);
+            if (deletedProduct == null)
+            {
+                return BadRequest();
+            }
+            return Ok(product);
+        }
     }
 }

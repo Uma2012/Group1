@@ -39,8 +39,8 @@ namespace Product.Service.Context
                     Name="Frozen cheescake",
                     Price= 50,
                     Quantity= 10,
-                    ImageUrl = @"..\Group1\Product.Service\Images\Frozen Cheesecake.jpg",
-                    Description ="Description" 
+                    ImageUrl = @"/Images/Frozen Cheesecake.jpg",
+                    Description ="Frozen Cheesecake with blueberries. Contains gluten, milk and eggs." 
                 },
                 new Models.Product()
                 {
@@ -48,8 +48,8 @@ namespace Product.Service.Context
                     Name = "Frozen pizza",
                     Price = 75,
                     Quantity = 15,
-                    ImageUrl = @"..\Group1\Product.Service\Images\Pizza.jpg",
-                    Description = "Description"
+                    ImageUrl = @"/Images/Pizza.jpg",
+                    Description = "Frozen Margherita. A lovely vegeterian pizza with tomatosauce and mozarellacheese. Contains gluten and milk."
                 },
                 new Models.Product()
                 {
@@ -57,8 +57,8 @@ namespace Product.Service.Context
                     Name = "Frozen lasagna",
                     Price = 125,
                     Quantity = 20,
-                    ImageUrl = @"..\Group1\Product.Service\Images\Lasagna.jpg",
-                    Description = "Description"
+                    ImageUrl = @"/Images/Lasagna.jpg",
+                    Description = "Frozen Lasagna. Just heat it up in the oven. Conatains gluten, milk and eggs."
                 },
                 new Models.Product()
                 {
@@ -66,8 +66,8 @@ namespace Product.Service.Context
                     Name = "Frozen salmon",
                     Price = 280,
                     Quantity = 10,
-                    ImageUrl = @"..\Group1\Product.Service\Images\Salmon.jpg",
-                    Description = "Description"
+                    ImageUrl = @"/Images/Salmon.jpg",
+                    Description = "A Lovely bite of salmon, already prepped with spices. The product picture is a servingtip."
                 },
                 new Models.Product()
                 {
@@ -75,8 +75,8 @@ namespace Product.Service.Context
                     Name = "Frozen phad thai",
                     Price = 75,
                     Quantity = 15,
-                    ImageUrl = @"..\Group1\Product.Service\Images\Chicken Pad Thai.jpg",
-                    Description = "Description"
+                    ImageUrl = @"/Images/Chicken Pad Thai.jpg",
+                    Description = "Frozen phad thai with chicken, spices, herbs and noodles. Heat up, add peanuts and it's ready to go. Contains egg and gluten."
                 }
                 );
         }
