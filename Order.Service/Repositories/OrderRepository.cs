@@ -31,8 +31,15 @@ namespace Order.Service.Repositories
 
         public Models.Order Create(Models.Order order)
         {
-            _context.Orders.Add(order);
-            _context.SaveChanges();
+            try
+            {
+                _context.Orders.Add(order);
+                _context.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
 
             return order;
         }

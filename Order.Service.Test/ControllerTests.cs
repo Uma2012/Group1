@@ -23,7 +23,8 @@ namespace Order.Service.Test
                     DeliveryId = 1,
                     OrderDate = DateTime.Now,
                     PaymentId = 1,
-                    Deliverd = false
+                    Deliverd = false,
+                    TotalPrice=200
                 }
                     );
 

@@ -1,7 +1,9 @@
+    using Microsoft.AspNetCore.Mvc;
+    using Order.Service.Models;
+using Order.Service.Repositories;
+
 namespace Order.Service.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using Order.Service.Repositories;
 
     [Route("api/[controller]/[Action]")]
     [ApiController]
@@ -9,7 +11,7 @@ namespace Order.Service.Controllers
     {
         private readonly IOrderRepository _orderRepository;
 
-        public OrderController(OrderRepository orderRepository)
+        public OrderController(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
         }
@@ -37,7 +39,10 @@ namespace Order.Service.Controllers
         public ActionResult<Models.Order> CreateOrder(Models.Order order)
         {
             var createdOrder = _orderRepository.Create(order);
-            return Ok(createdOrder);
+            if (createdOrder != null)
+                return Ok(createdOrder);
+            else
+                return BadRequest();
         }
     }
 }
