@@ -51,58 +51,68 @@ namespace Order.Service.Repositories
 
         public Models.Order Create(Models.Viewmodels.OrderViewModel orderViewModel)
         {
-            var newOrder = new Models.Order()
-            {
-                UserId = orderViewModel.UserId,
-                OrderDate = DateTime.Now,
-                PaymentId = orderViewModel.PaymentId,
-                DeliveryId = orderViewModel.DeliveryMethodId,
-                Deliverd = false,
-                TotalPrice=200
-
-            };
-
-          
-
-            //List<Models.OrderItem> orderItemList = new List<Models.OrderItem>();
             Models.OrderItem orderItem = null;
+            Models.Order newOrder = null;
 
-            //try
-            //{
-            //    using (var transcation = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            //    {
-                    _context.Orders.Add(newOrder);
+            try
+            {
+                newOrder = new Models.Order()
+                {
+                    UserId = orderViewModel.UserId,
+                    OrderDate = DateTime.Now,
+                    PaymentId = orderViewModel.PaymentId,
+                    DeliveryId = orderViewModel.DeliveryMethodId,
+                    Deliverd = false,
+                    TotalPrice = 200
+
+                };
+
+
+
+                
+               
+
+                //try
+                //{
+                //    using (var transcation = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                //    {
+                _context.Orders.Add(newOrder);
+                _context.SaveChanges();
+                // await _context.SaveChangesAsync();
+
+
+
+                foreach (var item in orderViewModel.ProductList)
+                {
+                    orderItem = new Models.OrderItem()
+                    {
+                        OrderId = newOrder.Id,
+                        ProductId = item.Id,
+                        Quantity = item.Quantity
+                    };
+                    _context.OrderItems.Add(orderItem);
                     _context.SaveChanges();
+                    // orderItemList.Add(orderItem);
+                    //_context.OrderItems.AddRange(orderItem);
                     // await _context.SaveChangesAsync();
 
+                }
+
+                //    }
+
+                //}
+
+                //catch (Exception e)
+                //{
 
 
-                    foreach (var item in orderViewModel.ProductList)
-                    {
-                         orderItem = new Models.OrderItem()
-                        {
-                            OrderId = newOrder.Id,
-                            ProductId = item.Id,
-                            Quantity = item.Quantity
-                        };
-                        _context.OrderItems.Add(orderItem);
-                        _context.SaveChanges();
-                        // orderItemList.Add(orderItem);
-                        //_context.OrderItems.AddRange(orderItem);
-                        // await _context.SaveChangesAsync();
-
-                    }
-
-            //    }
-
-            //}
-
-            //catch (Exception e)
-            //{
-
-
-            //    return null;
-            //}
+                //    return null;
+                //}
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
 
             return newOrder;
 
