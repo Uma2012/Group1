@@ -67,10 +67,10 @@ namespace Order.Service.Repositories
             //List<Models.OrderItem> orderItemList = new List<Models.OrderItem>();
             Models.OrderItem orderItem = null;
 
-            try
-            {
-                using (var transcation = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
+            //try
+            //{
+            //    using (var transcation = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            //    {
                     _context.Orders.Add(newOrder);
                     _context.SaveChanges();
                     // await _context.SaveChangesAsync();
@@ -93,16 +93,16 @@ namespace Order.Service.Repositories
 
                     }
 
-                }
+            //    }
 
-            }
+            //}
 
-            catch (Exception e)
-            {
+            //catch (Exception e)
+            //{
 
-                
-                return null;
-            }
+
+            //    return null;
+            //}
 
             return newOrder;
 
