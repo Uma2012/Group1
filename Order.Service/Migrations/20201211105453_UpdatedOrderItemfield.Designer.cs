@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Order.Service.Context;
 
 namespace Order.Service.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    partial class OrderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201211105453_UpdatedOrderItemfield")]
+    partial class UpdatedOrderItemfield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,9 +72,6 @@ namespace Order.Service.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OrderItemId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PaymentId")
                         .HasColumnType("int");
 
@@ -88,8 +87,6 @@ namespace Order.Service.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DeliveryId");
-
-                    b.HasIndex("OrderItemId");
 
                     b.HasIndex("PaymentMethodId");
 
@@ -113,6 +110,8 @@ namespace Order.Service.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
                 });
@@ -179,19 +178,24 @@ namespace Order.Service.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Order.Service.Models.OrderItem", "OrderItem")
-                        .WithMany("OrderList")
-                        .HasForeignKey("OrderItemId");
-
                     b.HasOne("Order.Service.Models.PaymentMethod", "PaymentMethod")
                         .WithMany("Orders")
                         .HasForeignKey("PaymentMethodId");
 
                     b.Navigation("Delivery");
 
-                    b.Navigation("OrderItem");
-
                     b.Navigation("PaymentMethod");
+                });
+
+            modelBuilder.Entity("Order.Service.Models.OrderItem", b =>
+                {
+                    b.HasOne("Order.Service.Models.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Order.Service.Models.Delivery", b =>
@@ -199,9 +203,9 @@ namespace Order.Service.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("Order.Service.Models.OrderItem", b =>
+            modelBuilder.Entity("Order.Service.Models.Order", b =>
                 {
-                    b.Navigation("OrderList");
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("Order.Service.Models.PaymentMethod", b =>

@@ -17,22 +17,42 @@ namespace Order.Service.Test
             int createdorderId = 0;
             using (var client = new TestClientProvider().Client)
             {
+                var productList = new List<Models.Product>()
+                { new Models.Product(){ Id=1,Quantity=2},
+                  new Models.Product(){Id=3,Quantity=1}
+                };
 
-                var payload = JsonSerializer.Serialize(new Models.Order()
-                {                  
+                //var payload = JsonSerializer.Serialize(new Models.Order()
+                //{
+                //    UserId = 1,
+                //    DeliveryId = 1,
+                //    OrderDate = DateTime.Now,
+                //    PaymentId = 1,
+                //    Deliverd = false,
+                //    TotalPrice = 200,
+                //    Productlist=productList
+
+                //}
+                //    );
+
+
+
+
+
+
+                var payload2 = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
+                {
                     UserId = 1,
-                    DeliveryId = 1,
-                    OrderDate = DateTime.Now,
                     PaymentId = 1,
-                    Deliverd = false,
-                    TotalPrice=200                    
-                    
+                    DeliveryMethodId = 1,
+                    ProductList = productList
+
                 }
                     );
 
-                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+                HttpContent content = new StringContent(payload2, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync($"/api/order/CreateOrder", content);
+               var response = await client.PostAsync($"/api/order/CreateOrder", content);
 
                 using (var responseStream = await response.Content.ReadAsStreamAsync())
                 {
@@ -48,27 +68,27 @@ namespace Order.Service.Test
 
                 }
 
-                var payload1 = JsonSerializer.Serialize(new List<Models.OrderItem>()
+                //var payload1 = JsonSerializer.Serialize(new List<Models.OrderItem>()
 
-                { 
-                    new Models.OrderItem() {OrderId=createdorderId,ProductId=1,Quantity=2 },
-                    new Models.OrderItem() {OrderId=createdorderId,ProductId=2,Quantity=1 }
+                //{ 
+                //    new Models.OrderItem() {OrderId=createdorderId,ProductId=1,Quantity=2 },
+                //    new Models.OrderItem() {OrderId=createdorderId,ProductId=2,Quantity=1 }
 
-                }
-                );
-                HttpContent content1 = new StringContent(payload1, Encoding.UTF8, "application/json");
+                //}
+                //);
+                //HttpContent content1 = new StringContent(payload1, Encoding.UTF8, "application/json");
 
-                var response1 = await client.PostAsync($"/api/order/CreateOrderItem", content1);
+                //var response1 = await client.PostAsync($"/api/order/CreateOrderItem", content1);
 
-                using (var responseStream = await response.Content.ReadAsStreamAsync())
-                {
-                    var orderItem = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
-                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });                  
+                //using (var responseStream = await response.Content.ReadAsStreamAsync())
+                //{
+                //    var orderItem = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
+                //        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });                  
                     
 
-                    Assert.Equal(HttpStatusCode.OK, response1.StatusCode);
+                //    Assert.Equal(HttpStatusCode.OK, response1.StatusCode);
 
-                }
+                //}
 
 
 
@@ -81,7 +101,7 @@ namespace Order.Service.Test
             using (var client = new TestClientProvider().Client)
             {
 
-                var payload = JsonSerializer.Serialize(new Models.Order()
+                var payload = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
                 { }
                 );
 

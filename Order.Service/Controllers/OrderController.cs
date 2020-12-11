@@ -37,17 +37,19 @@ namespace Order.Service.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Models.Order> CreateOrder(Models.Order order)
+        public ActionResult<Models.Order> CreateOrder(Models.Viewmodels.OrderViewModel orderViewModel)
         {
-            var createdOrder = _orderRepository.Create(order);
+            var createdOrder = _orderRepository.Create(orderViewModel);
             if (createdOrder != null)
+            {
                 return Ok(createdOrder);
+            }
             else
                 return BadRequest();
         }
 
         //[HttpPost]
-        //public ActionResult<Models.OrderItem> CreateOrderItem(List<Models.OrderItem> orderItems)
+        //public ActionResult<Models.OrderItem> CreateOrder(Models.Order order)
         //{
         //    var createdOrder = _orderRepository.Create(order);
         //    if (createdOrder != null)

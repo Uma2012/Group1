@@ -10,6 +10,8 @@ namespace Order.Service.Repositories
         public Models.Order GetById(int id);
         public List<Models.Order> GetByDeliveryStatus(bool delivery);
 
-        public Models.Order Create(Models.Order order);
+       // public Models.Order Create(Models.Order order);
+      //  public  Task<Models.Order> Create(Models.Viewmodels.OrderViewModel orderViewModel);
+        public Models.Order Create(Models.Viewmodels.OrderViewModel orderViewModel);
     }
 }

@@ -18,8 +18,9 @@ namespace Order.Service.Models
         public double TotalPrice { get; set; }
         public Delivery Delivery { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
-        public List<OrderItem> OrderItems { get; set; }
+      //  public List<OrderItem> OrderItems { get; set; }
         public string Address { get; set; }
+        public OrderItem OrderItem { get; set; }
 
 
     }
@@ -29,18 +30,12 @@ namespace Order.Service.Models
         public int Id { get; set; }
         public int OrderId { get; set; }
         public int ProductId { get; set; }
-        public int Quantity { get; set; }       
-        public Product Product { get; set; }
-        public Order Order { get; set; }
+        public int Quantity { get; set; }
+        //public Product Product { get; set; }
+        //  public Order Order { get; set; }
+        public List<Order> OrderList { get; set; }
 
     }
 
-    //public class OrderPrice
-    //{
-    //    public int Id { get; set; }
-    //    public int OrderId { get; set; }
-    //    public double TotalPrice { get; set; }
-    //    public Order Order { get; set; }
-
-    //}
+   
 }
