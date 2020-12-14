@@ -17,7 +17,7 @@ namespace Order.Service.Repositories
             _context = context;
         }
 
-        public Models.Order GetById(int id)
+        public Models.Order GetOrderById(int id)
         {
 
             var order = _context.Orders.FirstOrDefault(x => x.Id == id);
@@ -67,19 +67,11 @@ namespace Order.Service.Repositories
 
                 };
 
-
-
                 
-               
-
-                //try
+                //using (var transcation = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 //{
-                //    using (var transcation = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                //    {
-                _context.Orders.Add(newOrder);
-                _context.SaveChanges();
-                // await _context.SaveChangesAsync();
-
+                 _context.Orders.Add(newOrder);
+                  _context.SaveChanges();            
 
 
                 foreach (var item in orderViewModel.ProductList)
@@ -91,23 +83,14 @@ namespace Order.Service.Repositories
                         Quantity = item.Quantity
                     };
                     _context.OrderItems.Add(orderItem);
-                    _context.SaveChanges();
-                    // orderItemList.Add(orderItem);
-                    //_context.OrderItems.AddRange(orderItem);
-                    // await _context.SaveChangesAsync();
+                    _context.SaveChanges();                  
 
                 }
 
-                //    }
+                 //}
 
                 //}
-
-                //catch (Exception e)
-                //{
-
-
-                //    return null;
-                //}
+               
             }
             catch (Exception e)
             {
@@ -116,9 +99,42 @@ namespace Order.Service.Repositories
 
             return newOrder;
 
-
         }
 
-      
+        public bool Delete(int orderId)
+        {
+            var order = GetOrderById(orderId);
+            try
+            {
+                if (order != null)
+                {
+                    _context.Orders.Remove(order);
+                    _context.SaveChanges();                    
+                }
+                var orderItems = GetOrderItemsOfGivenOrderId(orderId);
+                if(orderItems!=null)
+                {
+                    _context.OrderItems.RemoveRange(orderItems);
+                    _context.SaveChanges();
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public List<Models.OrderItem> GetOrderItemsOfGivenOrderId(int orderId)
+        {
+           var orderItems= _context.OrderItems.FirstOrDefault(x => x.OrderId == orderId);
+            if(orderItems!=null)
+            {
+                List<Models.OrderItem> orderItemsList = new List<Models.OrderItem>();
+                orderItemsList = _context.OrderItems.Where(x => x.OrderId == orderId).ToList();
+                return orderItemsList;
+            }
+            return null;
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace Order.Service.Controllers
         [HttpGet]
         public ActionResult<Models.Order> GetOne(int id)
         {
-            var order = _orderRepository.GetById(id);
+            var order = _orderRepository.GetOrderById(id);
             if (order == null)
             {
                 return NotFound();
@@ -48,15 +48,18 @@ namespace Order.Service.Controllers
                 return BadRequest();
         }
 
-        //[HttpPost]
-        //public ActionResult<Models.OrderItem> CreateOrder(Models.Order order)
-        //{
-        //    var createdOrder = _orderRepository.Create(order);
-        //    if (createdOrder != null)
-        //        return Ok(createdOrder);
-        //    else
-        //        return BadRequest();
-        //}
+        [HttpDelete]
+        public ActionResult<int> DeleteOrder(int orderId)
+        {
+            var wasDeleted = _orderRepository.Delete(orderId);
+            if (wasDeleted)
+            {
+                return Ok(orderId);
+            }
+            else
+                return NotFound();
+
+        }
 
     }
 }

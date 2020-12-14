@@ -20,25 +20,7 @@ namespace Order.Service.Test
                 var productList = new List<Models.Product>()
                 { new Models.Product(){ Id=1,Quantity=2},
                   new Models.Product(){Id=3,Quantity=1}
-                };
-
-                //var payload = JsonSerializer.Serialize(new Models.Order()
-                //{
-                //    UserId = 1,
-                //    DeliveryId = 1,
-                //    OrderDate = DateTime.Now,
-                //    PaymentId = 1,
-                //    Deliverd = false,
-                //    TotalPrice = 200,
-                //    Productlist=productList
-
-                //}
-                //    );
-
-
-
-
-
+                };             
 
                 var payload2 = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
                 {
@@ -96,13 +78,28 @@ namespace Order.Service.Test
         {
             using (var client = new TestClientProvider().Client)
             {
-                var payload = JsonSerializer.Serialize(new Models.Order());
+                var payload = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel());
 
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
 
-                var response = await client.DeleteAsync($"/api/order/deleteorder?id={0}");
+                var response = await client.PostAsync($"/api/order/createorder", content);
 
-                Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+                Models.Order order = null;
+
+                using (var responseStream = await response.Content.ReadAsStreamAsync())
+                {
+                    order = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
+                          new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                }
+                var deleteResponse = await client.DeleteAsync($"/api/order/deleteorder?orderId={order.Id}");
+                using (var responseStream = await deleteResponse.Content.ReadAsStreamAsync())
+                {
+                    var deletedId = await JsonSerializer.DeserializeAsync<int>(responseStream,
+                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                    Assert.Equal(order.Id, deletedId);
+                }
 
             }
         }
@@ -113,20 +110,35 @@ namespace Order.Service.Test
             using (var client = new TestClientProvider().Client)
             {
 
-                var payload = JsonSerializer.Serialize(new Models.Order());
+                var productList = new List<Models.Product>()
+                { new Models.Product(){ Id=1,Quantity=2},
+                  new Models.Product(){Id=3,Quantity=1}
+                };
+
+
+                var payload = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
+                {
+                    UserId = 2,
+                    PaymentId = 2,
+                    DeliveryMethodId = 2,
+                    ProductList = productList
+                }
+                );               
 
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync($"/api/order/createorder", content);
-                Models.Order order = null;
+
+                Models.Order order = null;              
+
+                    
                 using (var responseStream = await response.Content.ReadAsStreamAsync())
                 {
                     order = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
-                          new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-
+                          new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });                    
 
                 }
-                var deleteResponse = await client.DeleteAsync($"/api/order/deleteorder?id={order.Id}");
+                var deleteResponse = await client.DeleteAsync($"/api/order/deleteorder?orderId={order.Id}");
                 using (var responseStream = await deleteResponse.Content.ReadAsStreamAsync())
                 {
                     var deletedId = await JsonSerializer.DeserializeAsync<int>(responseStream,
