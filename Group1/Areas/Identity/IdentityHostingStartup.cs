@@ -1,5 +1,6 @@
 ﻿using System;
 using Group1.Data;
+using Group1.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
