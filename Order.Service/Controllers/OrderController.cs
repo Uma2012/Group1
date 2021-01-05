@@ -1,7 +1,10 @@
+    using Microsoft.AspNetCore.Mvc;
+    using Order.Service.Models;
+using Order.Service.Repositories;
+using System.Collections.Generic;
+
 namespace Order.Service.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using Order.Service.Repositories;
 
     [Route("api/[controller]/[Action]")]
     [ApiController]
@@ -9,7 +12,7 @@ namespace Order.Service.Controllers
     {
         private readonly IOrderRepository _orderRepository;
 
-        public OrderController(OrderRepository orderRepository)
+        public OrderController(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
         }
@@ -17,7 +20,7 @@ namespace Order.Service.Controllers
         [HttpGet]
         public ActionResult<Models.Order> GetOne(int id)
         {
-            var order = _orderRepository.GetById(id);
+            var order = _orderRepository.GetOrderById(id);
             if (order == null)
             {
                 return NotFound();
@@ -34,10 +37,29 @@ namespace Order.Service.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Models.Order> Create([FromBody] Models.Order order)
+        public ActionResult<Models.Order> CreateOrder(Models.Viewmodels.OrderViewModel orderViewModel)
         {
-            var createdOrder = _orderRepository.Create(order);
-            return Ok(createdOrder);
+            var createdOrder = _orderRepository.Create(orderViewModel);
+            if (createdOrder != null)
+            {
+                return Ok(createdOrder);
+            }
+            else
+                return BadRequest();
         }
+
+        [HttpDelete]
+        public ActionResult<int> DeleteOrder(int orderId)
+        {
+            var wasDeleted = _orderRepository.Delete(orderId);
+            if (wasDeleted)
+            {
+                return Ok(orderId);
+            }
+            else
+                return NotFound();
+
+        }
+
     }
 }
