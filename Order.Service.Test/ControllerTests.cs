@@ -24,7 +24,7 @@ namespace Order.Service.Test
 
                 var payload2 = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
                 {
-                    UserId = 1,
+                    UserId = Guid.NewGuid(),
                     PaymentId = 1,
                     DeliveryMethodId = 1,
                     ProductList = productList
@@ -118,7 +118,7 @@ namespace Order.Service.Test
 
                 var payload = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
                 {
-                    UserId = 2,
+                    UserId = Guid.NewGuid(),
                     PaymentId = 2,
                     DeliveryMethodId = 2,
                     ProductList = productList

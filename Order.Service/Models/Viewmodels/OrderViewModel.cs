@@ -9,7 +9,7 @@ namespace Order.Service.Models.Viewmodels
     {
        // public int OrderId { get; set; }
        // public int ProductId { get; set; }
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public List<Product> ProductList { get; set; }
         public int PaymentId { get; set; }
         public int DeliveryMethodId { get; set; }
