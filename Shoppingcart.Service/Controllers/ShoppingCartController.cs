@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shoppingcart.Service.Entity;
+using Shoppingcart.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +11,13 @@ namespace Shoppingcart.Service.Controllers
 {
     [Route("api/[controller]/[Action]")]
     [ApiController]
-    public class ShoppingCart : ControllerBase
+    public class ShoppingCartController : ControllerBase
     {
-       
+       [HttpPost]
+       public async Task AddToCart([FromBody]ShoppingCart cart)
+        {
+
+        }
 
     }
 }

@@ -29,12 +29,12 @@ namespace Group1.Web.Services
             request = SetHeaders(request);
 
             // Serialize object to JSON
-            var postJson = JsonSerializer.Serialize(obj);
-            request.Content = new StringContent(postJson, Encoding.UTF8, "application/json");
+            var serialized = JsonSerializer.Serialize(obj);
+            request.Content = new StringContent(serialized, Encoding.UTF8, ACCEPT_VALUE);
 
             // Send and receive request
-            var result = await _client.SendAsync(request);
-            var responseString = await result.Content.ReadAsStreamAsync();            
+            var response = await _client.SendAsync(request);
+            var responseString = await response.Content.ReadAsStreamAsync();            
 
         }
 

@@ -1,6 +1,7 @@
 using Group1.Data;
 using Group1.Web.Models;
 using Group1.Web.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -34,6 +35,8 @@ namespace Group1
             services.AddSingleton<CartServiceHandler>();
 
             services.AddHttpClient();
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.AddSession();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -57,6 +60,9 @@ namespace Group1
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession(); // Enable session cookies. Must be added BEFORE .UseEndpoints!!!
+
+            app.UseCookiePolicy();
 
             app.UseAuthentication();
             app.UseAuthorization();

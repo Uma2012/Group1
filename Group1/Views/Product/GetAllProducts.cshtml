@@ -16,7 +16,7 @@
                     <a asp-controller="Product" asp-action="GetOneProduct" asp-route-productid="@item.Id">Go to product</a>
                     <br />
                     <br />
-                    <input type="submit" value="Buy" class="btn btn-primary" asp-action="AddToCart" asp-controller="Shoppingcart">
+                    <input type="submit" value="Buy" class="btn btn-primary" asp-action="AddToCart" asp-controller="Shoppingcart" asp-route-productId="@item.Id">
                 </div>
             </div>
         }
