@@ -17,6 +17,7 @@ namespace Shoppingcart.Service
 {
     public class Startup
     {
+        private readonly string _corsePolicyString = "ShoppingCartService";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,6 +28,14 @@ namespace Shoppingcart.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_corsePolicyString,
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44309"); //webproject
+                    });
+            });
             services.AddDbContext<ShoppingCartDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
@@ -43,6 +52,8 @@ namespace Shoppingcart.Service
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(_corsePolicyString);
 
             app.UseAuthorization();
 

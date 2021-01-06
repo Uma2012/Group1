@@ -53,9 +53,11 @@ namespace Product.Service
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection();            
 
             app.UseRouting();
+
+            app.UseCors(_corsePolicyString);
 
             app.UseAuthorization();
 

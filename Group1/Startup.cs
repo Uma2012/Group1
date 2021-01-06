@@ -31,6 +31,7 @@ namespace Group1
 
           
             services.AddSingleton<ProductServiceHandler>();
+            services.AddSingleton<CartServiceHandler>();
 
             services.AddHttpClient();
 
