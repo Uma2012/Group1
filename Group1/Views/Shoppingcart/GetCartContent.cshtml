@@ -1,0 +1,42 @@
+﻿@model Group1.Web.Models.ShoppingCart
+
+@{
+    ViewData["Title"] = "GetCartContent";
+}
+
+<h1>GetCartContent</h1>
+<form method="post">
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Userid)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@for (int i = 0; i < Model.productlist.Count; i++) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.productlist[i])
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.productlist[i].Quantity)
+            </td>
+            <td>
+                <input type="submit" value="Delete" class="btn-danger"  asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.productlist[i].Product.Id"/>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+</form>
