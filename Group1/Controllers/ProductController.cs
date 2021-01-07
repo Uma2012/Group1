@@ -25,14 +25,14 @@ namespace Group1.Web.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Models.Product>>> GetAllProducts()
         {
-            List<Models.Product> allProducts = await _productService.GetAllAsync<Models.Product>($"{_productServiceRootUrl}GetAll");
+            List<Models.Product> allProducts = await _productService.GetAllAsync<Models.Product>($"{_productServiceRootUrl}/api/product/GetAll");
             return View(allProducts);
         }
 
         [HttpGet("productid")]
         public async Task<ActionResult<Models.Product>> GetOneProduct(int productid)
         {
-            var product = await _productService.GetOneAsyn<Models.Product>($"{_productServiceRootUrl}Getone?id="+ productid);
+            var product = await _productService.GetOneAsyn<Models.Product>($"{_productServiceRootUrl}/api/product/Getone?id="+ productid);
             return View(product);
         }
     }
