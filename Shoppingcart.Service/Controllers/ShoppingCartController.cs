@@ -18,6 +18,10 @@ namespace Shoppingcart.Service.Controllers
         {
 
         }
+        [HttpGet]
+        public async Task Test()
+        {
 
+        }
     }
 }
