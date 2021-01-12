@@ -76,10 +76,16 @@ namespace Group1.Web.Controllers
 
             //calculate total price only if the cart contains data
             if (cart != null)
-                shoppingCart.TotalPrice =(decimal) shoppingCart.productlist.Sum(x => x.Product.Price * x.Quantity);
+            {
+                shoppingCart.TotalPrice = (decimal)shoppingCart.productlist.Sum(x => x.Product.Price * x.Quantity);
 
             return View(shoppingCart);
-        }
+            }
+            else
+            {
+                return RedirectToAction("GetAllProducts", "Product");
+        };
+    }
 
         [HttpPost]
         public IActionResult DeleteAnItem(int id)
