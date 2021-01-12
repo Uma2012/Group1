@@ -40,6 +40,7 @@ namespace Group1
 
           
             services.AddSingleton<ProductServiceHandler>();
+            services.AddSingleton<OrderServiceHandler>();
 
             services.AddHttpClient();
 
