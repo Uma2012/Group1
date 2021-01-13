@@ -79,7 +79,12 @@ namespace Group1.Web.Controllers
                 shoppingCart.TotalPrice =(double) shoppingCart.productlist.Sum(x => x.Product.Price * x.Quantity);
 
             return View(shoppingCart);
-        }
+            }
+            else
+            {
+                return RedirectToAction("GetAllProducts", "Product");
+        };
+    }
 
         [HttpPost]
         public IActionResult DeleteAnItem(int id)
