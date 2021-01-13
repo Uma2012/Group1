@@ -34,20 +34,23 @@ namespace Group1.Web.Controllers
                 {
                     ProductList = cart.productlist,
                     UserId = Guid.Parse(_userManager.GetUserId(User)),
-                    TotalPrice = cart.TotalPrice
+                    TotalPrice = cart.TotalPrice,
+                    Deliverd=false,
+                    //PaymentId=,
+                    //DeliveryId=
                 };
 
                 await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
                 return View(order);
-           // }
+            //}
 
-            //redirect to login page
+                //redirect to login page
             //else
             //{
             //    TempData["LoginNeeded"] = "You have to Login before placing the order";
             //    return RedirectToAction("GetCartContent", "ShoppingCart");
             //}
-           // return View("Areas/Identity/Account/Manage/Index");
+            // return View("Areas/Identity/Account/Manage/Index");
         }
     }
 }

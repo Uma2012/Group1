@@ -7,7 +7,7 @@
 
 {
     <div class="alert alert-warning" role="alert">
-        @TempData["LoginNeeded"] Click <a asp-page="/Areas/Identity/Account/Manage/Index.cshtml">here</a> to login
+        @TempData["LoginNeeded"] Click <a asp-page="/Identity/Account/Login">here</a> to login
     </div>
 }*@
 
@@ -56,8 +56,11 @@
         </tbody>
     </table>
 
-    <p><b>Total: </b>@Math.Round(Model.TotalPrice) SEK</p>
-    @Html.HiddenFor(x => x.TotalPrice)
+    <div>
+        <p><b>Total: </b>@Math.Round(Model.TotalPrice) SEK</p>
+        <p style="color:gray;">(Excluding Delivery charges)</p>
+        @Html.HiddenFor(x => x.TotalPrice)
+    </div>
     <input value="Place order" type="submit" asp-action="CreateOrder" asp-controller="Order" asp-route-productid=" " class="btn btn-dark" />
 
 </form>

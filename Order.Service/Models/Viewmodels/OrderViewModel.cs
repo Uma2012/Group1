@@ -13,5 +13,6 @@ namespace Order.Service.Models.Viewmodels
         public List<Product> ProductList { get; set; }
         public int PaymentId { get; set; }
         public int DeliveryMethodId { get; set; }
+        public double Totalprice { get; set; }
     }
 }

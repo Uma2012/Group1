@@ -10,6 +10,8 @@ namespace Group1.Web.Models
         public List<CartItem> productlist { get; set; }
         public double TotalPrice { get; set; }
         public Guid Userid { get; set; }
+        public int PaymentId { get; set; }
+        public int DeliveryId { get; set; }
     }
     public class CartItem
     {
