@@ -1,5 +1,6 @@
 ﻿using Group1.Web.Models;
 using Group1.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -22,17 +23,31 @@ namespace Group1.Web.Controllers
             _orderServiceRootUrl = config["OrderServiceURL"];
 
         }
-        public async Task<ActionResult<Order>> CreateOrder([Bind("TotalPrice", "productlist")] ShoppingCart cart)
-        {          
-            var order = new Order()
-            {
-                ProductList=cart.productlist,
-                UserId = Guid.Parse(_userManager.GetUserId(User)),
-                TotalPrice =cart.TotalPrice
-            };
 
-            await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
-            return View(order);
+        [Authorize]
+        public async Task<ActionResult<Order>> CreateOrder([Bind("TotalPrice", "productlist")] ShoppingCart cart)
+        {
+            //bool isAuthenticated = User.Identity.IsAuthenticated;
+            //if (isAuthenticated)
+            //{
+                var order = new Order()
+                {
+                    ProductList = cart.productlist,
+                    UserId = Guid.Parse(_userManager.GetUserId(User)),
+                    TotalPrice = cart.TotalPrice
+                };
+
+                await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
+                return View(order);
+           // }
+
+            //redirect to login page
+            //else
+            //{
+            //    TempData["LoginNeeded"] = "You have to Login before placing the order";
+            //    return RedirectToAction("GetCartContent", "ShoppingCart");
+            //}
+           // return View("Areas/Identity/Account/Manage/Index");
         }
     }
 }
