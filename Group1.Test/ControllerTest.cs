@@ -56,11 +56,11 @@ namespace Products.Service.Tests
                 var payload = JsonSerializer.Serialize(new Product.Service.Models.Product()
 
                 {
-                    Name = "Testprodukt",
+                    Name = "NyProdukt",
                     Quantity = 1,
                     Price = 15,
-                    ImageUrl = "https://www.medistore.se/PICTURE/test_produkt.png",
-                    Description = "Detta är en testprodukt"
+                    ImageUrl = "https://henryfuentes.com/wp-content/uploads/2015/06/New-Products-1.png",
+                    Description = "Detta Ã¤r en ny produkt"
                 }
                     );
 
@@ -78,6 +78,75 @@ namespace Products.Service.Tests
                 }
             }
         }
+        [Fact]
+        public async Task DeleteProduct_Returns_Notfound()
+        {
+            using (var client = new TestClientProvider().Client)
+            {
+                var payload = JsonSerializer.Serialize(new Product.Service.Models.Product());
+
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                var response = await client.DeleteAsync($"/api/product/");
+
+                Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            }
+        }
+        [Fact]
+        public async Task DeleteProduct_Returns_DeletedProductId()
+        {
+            using (var client = new TestClientProvider().Client)
+            {
+                //Create product
+                var product = JsonSerializer.Serialize(new Product.Service.Models.Product()
+                {
+                    Name = "TabortProdukt",
+                    Quantity = 10,
+                    Price = 100,
+                    ImageUrl = "https://www.stadshop.se/image/8171/648139.jpg",
+                    Description = ""
+                });
+
+                HttpContent content = new StringContent(product, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync($"/api/product/createproduct", content);
+
+                //Add product
+                var responseStream = await response.Content.ReadAsStreamAsync();
+                var newProduct = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(responseStream,
+                    new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                //Delete product 
+                var deleteresponse = await client.DeleteAsync($"/api/product/{newProduct.Id}");
+
+                var deleteResponseStream = await deleteresponse.Content.ReadAsStreamAsync();
+                var deletedProduct = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(deleteResponseStream,
+                    new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                Assert.Equal(newProduct.Id, deletedProduct.Id);
+            }
+        }
+        //[Fact]
+        //public async Task UpdateProduct_Returns_UpdatedProduct()
+        //{
+        //    var product = JsonSerializer.Serialize(new Product.Service.Models.Product()
+        //    {
+        //        Name = "UppdateraProdukt",
+        //        Quantity = 10,
+        //        Price = 100,
+        //        ImageUrl = "https://thumbs.dreamstime.com/b/uppdatera-f%C3%B6rnya-symbolen-den-glas-gr%C3%A4splanrundaknappen-97687883.jpg",
+        //        Description = ""
+        //    });
+
+        //    HttpContent content = new StringContent(product, Encoding.UTF8, "application/json");
+
+        //    var response = await client.PostAsync($"/api/product/createproduct", content);
+
+        //    var responseStream = await response.Content.ReadAsStreamAsync();
+        //    var newProduct = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(responseStream,
+        //        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        //}
     }
 }
+
 
