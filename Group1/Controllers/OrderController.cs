@@ -7,9 +7,6 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Group1.Web.Controllers
@@ -30,6 +27,9 @@ namespace Group1.Web.Controllers
         [Authorize]
         public async Task<ActionResult<Order>> CreateOrder([Bind("TotalPrice", "productlist")] ShoppingCart cart)
         {
+            //bool isAuthenticated = User.Identity.IsAuthenticated;
+            //if (isAuthenticated)
+            //{
                 var order = new Order()
                 {
                     ProductList = cart.productlist,
@@ -39,19 +39,18 @@ namespace Group1.Web.Controllers
                     //PaymentId=,
                     //DeliveryId=
                 };
-            string OrderBaseurl = "http://localhost:64571/api/order/";
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(OrderBaseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
+                return View(order);
+            //}
 
-                HttpContent content = new StringContent(System.Text.Json.JsonSerializer.Serialize(order), Encoding.UTF8, "application/json");
-
-                HttpResponseMessage Res = await client.PostAsync("CreateOrder", content);
-            }
-            return View(order);
+                //redirect to login page
+            //else
+            //{
+            //    TempData["LoginNeeded"] = "You have to Login before placing the order";
+            //    return RedirectToAction("GetCartContent", "ShoppingCart");
+            //}
+            // return View("Areas/Identity/Account/Manage/Index");
         }
     }
 }

@@ -15,17 +15,4 @@ namespace Group1.Web.Models
         public int DeliveryId { get; set; }
         public bool Deliverd { get; set; }
     }
-    public class CartItem
-    {
-        public static explicit operator ProductList(CartItem cartItem)
-        {
-            var CartItem = new CartItem()
-            {
-                Product = cartItem.Product,
-                Quantity = cartItem.Quantity
-            };
-
-            return CartItem;
-        }
-    }
 }
