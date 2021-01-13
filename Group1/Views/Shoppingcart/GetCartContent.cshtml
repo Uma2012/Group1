@@ -3,69 +3,71 @@
 @{
     ViewData["Title"] = "GetCartContent";
 }
-@*@if (TempData["LoginNeeded"] != null)
-
+@if (!User.Identity.IsAuthenticated)
 {
     <div class="alert alert-warning" role="alert">
-        @TempData["LoginNeeded"] Click <a asp-page="/Identity/Account/Login">here</a> to login
+        You need to <a href="~/Identity/Account/Login">login</a> to place an order.
     </div>
-}*@
-@if (Model.productlist != null && Model.TotalPrice>0)
+}
+@if (Model.productlist != null && Model.TotalPrice > 0)
 {
 
-<center><h1>Cart</h1></center>
-<form method="post">
+    <center><h1>Cart</h1></center>
+    <form method="post">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Products
-                </th>
-                <th>
-                    Quantity
-                </th>
-                <th>
-                    Price
-                </th>
-                <th>
-
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < Model.productlist.Count; i++)
-            {
+        <table class="table">
+            <thead>
                 <tr>
-                    @Html.HiddenFor(x => x.productlist[i].Product.Id)
-                    <td>
-                        @Html.DisplayFor(modelItem => Model.productlist[i].Product.Name)
-                        @Html.HiddenFor(x => x.productlist[i].Product.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => Model.productlist[i].Quantity)
-                        @Html.HiddenFor(x => x.productlist[i].Quantity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => Model.productlist[i].Product.Price)
-                        @Html.HiddenFor(x => x.productlist[i].Product.Price)
-                    </td>
-                    <td>
-                        <input type="submit" value="Remove" class="btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.productlist[i].Product.Id" />
-                    </td>
+                    <th>
+                        Products
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.productlist.Count; i++)
+                {
+                    <tr>
+                        @Html.HiddenFor(x => x.productlist[i].Product.Id)
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.productlist[i].Product.Name)
+                            @Html.HiddenFor(x => x.productlist[i].Product.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.productlist[i].Quantity)
+                            @Html.HiddenFor(x => x.productlist[i].Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.productlist[i].Product.Price)
+                            @Html.HiddenFor(x => x.productlist[i].Product.Price)
+                        </td>
+                        <td>
+                            <input type="submit" value="Remove" class="btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.productlist[i].Product.Id" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    <div>
-        <p><b>Total: </b>@Math.Round(Model.TotalPrice) SEK</p>
-        <p style="color:gray;">(Excluding Delivery charges)</p>
-        @Html.HiddenFor(x => x.TotalPrice)
-    </div>
-    <input value="Place order" type="submit" asp-action="CreateOrder" asp-controller="Order" asp-route-productid=" " class="btn btn-dark" />
+        <div>
+            <p><b>Total: </b>@Math.Round(Model.TotalPrice) SEK</p>
+            <p style="color:gray;">(Excluding Delivery charges)</p>
+            @Html.HiddenFor(x => x.TotalPrice)
+        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <input value="Place order" type="submit" asp-action="CreateOrder" asp-controller="Order" asp-route-productid=" " class="btn btn-dark" />
+        }
 
-</form>
+    </form>
 }
 else
 {
