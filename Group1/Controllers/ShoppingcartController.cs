@@ -76,16 +76,16 @@ namespace Group1.Web.Controllers
 
             //calculate total price only if the cart contains data
             if (cart != null)
-            {
+            
                 shoppingCart.TotalPrice = (double)shoppingCart.productlist.Sum(x => x.Product.Price * x.Quantity);
 
                 return View(shoppingCart);
-            }
+            
 
-            else
-            {
-                return RedirectToAction("GetAllProducts", "Product");
-            }
+            //else
+            //{
+            //    return RedirectToAction("GetAllProducts", "Product");
+            //}
          }
 
         [HttpPost]
