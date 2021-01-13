@@ -8,7 +8,7 @@ namespace Group1.Web.Models
     public class ShoppingCart
     {
         public List<CartItem> productlist { get; set; }
-        public decimal TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
         public Guid Userid { get; set; }
     }
     public class CartItem

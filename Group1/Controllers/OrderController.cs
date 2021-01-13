@@ -22,18 +22,17 @@ namespace Group1.Web.Controllers
             _orderServiceRootUrl = config["OrderServiceURL"];
 
         }
-        public async Task<IActionResult> CreateOrder()
-        {
-            
-            var userId = _userManager.GetUserId(HttpContext.User);
-            
+        public async Task<ActionResult<Order>> CreateOrder(ShoppingCart cart)
+        {          
             var order = new Order()
             {
-                UserId = Guid.Parse(userId)
+                ProductList=cart.productlist,
+                UserId = Guid.Parse(_userManager.GetUserId(User)),
+                TotalPrice =cart.TotalPrice
             };
 
             await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
-            return View();
+            return View(order);
         }
     }
 }
