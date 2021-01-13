@@ -22,7 +22,7 @@ namespace Group1.Web.Controllers
             _orderServiceRootUrl = config["OrderServiceURL"];
 
         }
-        public async Task<ActionResult<Order>> CreateOrder(ShoppingCart cart)
+        public async Task<ActionResult<Order>> CreateOrder([Bind("TotalPrice", "productlist")] ShoppingCart cart)
         {          
             var order = new Order()
             {
