@@ -50,7 +50,7 @@
                             @Html.HiddenFor(x => x.productlist[i].Product.Price)
                         </td>
                         <td>
-                            <input type="submit" value="Remove" class="btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.productlist[i].Product.Id" />
+                            <input type="submit" value="Remove" class="btn btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.productlist[i].Product.Id" />
                         </td>
                     </tr>
                 }
