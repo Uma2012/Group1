@@ -26,10 +26,7 @@ namespace Group1.Web.Controllers
 
         [Authorize]
         public async Task<ActionResult<Order>> CreateOrder([Bind("TotalPrice", "productlist")] ShoppingCart cart)
-        {
-            //bool isAuthenticated = User.Identity.IsAuthenticated;
-            //if (isAuthenticated)
-            //{
+        {            
                 var order = new Order()
                 {
                     ProductList = cart.productlist,
@@ -44,15 +41,7 @@ namespace Group1.Web.Controllers
 
                 await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
                 return View(order);
-            //}
-
-                //redirect to login page
-            //else
-            //{
-            //    TempData["LoginNeeded"] = "You have to Login before placing the order";
-            //    return RedirectToAction("GetCartContent", "ShoppingCart");
-            //}
-            // return View("Areas/Identity/Account/Manage/Index");
+            
         }
     }
 }

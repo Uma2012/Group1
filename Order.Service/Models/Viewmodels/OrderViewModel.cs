@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace Order.Service.Models.Viewmodels
 {
     public class OrderViewModel
-    {
-       
+    {       
         public int Id { get; set; }
         public Guid UserId { get; set; }        
         public List<CartItem> ProductList { get; set; }
