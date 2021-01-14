@@ -66,7 +66,7 @@ namespace Order.Service.Repositories
                     PaymentId = orderViewModel.PaymentId,
                     DeliveryId = orderViewModel.DeliveryMethodId,
                     Deliverd = false,
-                    TotalPrice = 200
+                    TotalPrice = orderViewModel.Totalprice
 
                 };
 
@@ -82,7 +82,7 @@ namespace Order.Service.Repositories
                     orderItem = new Models.OrderItem()
                     {
                         OrderId = newOrder.Id,
-                        ProductId = item.Id,
+                        ProductId = item.Product.Id,
                         Quantity = item.Quantity
                     };
                     _context.OrderItems.Add(orderItem);
