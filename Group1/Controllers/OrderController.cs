@@ -32,7 +32,7 @@ namespace Group1.Web.Controllers
                 UserId = Guid.Parse(_userManager.GetUserId(User)),
                 TotalPrice = cart.TotalPrice,
                 Deliverd = false,
-                DeliveryMethodId = 1,
+                DeliveryMethodId = int.Parse(form["Shipping method"]),
                 PaymentId = int.Parse(form["Payment method"])
             };
 

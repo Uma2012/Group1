@@ -9,7 +9,7 @@
         You need to <a href="~/Identity/Account/Login">login</a> to place an order.
     </div>
 }
-<form method="post" asp-action="CreateOrder" asp-controller="Order" asp-route-productid=" ">
+<form method="post" asp-action="CreateOrder" asp-controller="Order">
     <div class="row">
         <div class="col-lg-6">
             @{
@@ -39,6 +39,7 @@
                                         <p>@Html.DisplayFor(modelItem => modelItem.cartItems[i].Quantity)</p>
                                         <p>@Model.cartItems[i].Product.Price SEK</p>
                                         <p>@{var tp = Model.cartItems[i].Product.Price * Model.cartItems[i].Quantity;} @tp SEK</p>
+                                        <input type="submit" value="Remove" class="btn btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.cartItems[i].Product.Id" />
                                     </div>
                                 </div>
                             </div>
@@ -64,18 +65,28 @@
                         <h6 class="float-left">Total price:</h6>
                         <span class="float-right">@Model.TotalPrice SEK</span>
                         @Html.HiddenFor(modelItem => modelItem.TotalPrice)
-                        </div>
-                        <div class="clearfix" style="margin : 0 75px 0" @hidden>
-                            <h6 class="float-left">Select Payment method:</h6>
-                            <span class="float-lg-right">
-                                @Html.DropDownList("Payment method", new List<SelectListItem>
-                       {
-                           new SelectListItem {Text="Card", Value="2", Selected=true},
-                           new SelectListItem {Text="Swish", Value="1"}
-                       })
-                            </span>
-                        </div>
                     </div>
+                    <div class="clearfix" style="margin : 0 75px 0" @hidden>
+                        <h6 class="float-left">Payment method:</h6>
+                        <span class="float-lg-right">
+                            @Html.DropDownList("Payment method", new List<SelectListItem>
+                   {
+                       new SelectListItem {Text="Swish", Value="1"},
+                       new SelectListItem {Text="Card", Value="2", Selected=true}
+                   })
+                        </span>
+                    </div>
+                    <div class="clearfix" style="margin : 0 75px 0" @hidden>
+                        <h6 class="float-left">Shipping method:</h6>
+                        <span class="float-lg-right">
+                            @Html.DropDownList("Shipping method", new List<SelectListItem>
+                   {
+                       new SelectListItem {Text="Homedelivery", Value="1"},
+                       new SelectListItem {Text="Takeaway", Value="2", Selected=true}
+                   })
+                        </span>
+                    </div>
+                </div>
 
                 <div class="card-footer" style="background-color:#ffffff">
                     <p><input type="submit" value="PLACE ORDER" class="btn btn-success btn-block" @disabled /></p>
