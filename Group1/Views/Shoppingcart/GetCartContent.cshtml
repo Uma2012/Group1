@@ -65,6 +65,14 @@
         @if (User.Identity.IsAuthenticated)
         {
             <input value="Place order" type="submit" asp-action="CreateOrder" asp-controller="Order" asp-route-productid=" " class="btn btn-dark" />
+            <p>
+                Select Payment method:
+                @Html.DropDownList("Payment method", new List<SelectListItem>
+       {
+           new SelectListItem {Text="Card", Value="2", Selected=true},
+           new SelectListItem {Text="Swish", Value="1"}
+       })
+            </p>
         }
 
     </form>

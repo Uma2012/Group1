@@ -1,6 +1,7 @@
 ﻿using Group1.Web.Models;
 using Group1.Web.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -25,32 +26,21 @@ namespace Group1.Web.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult<Order>> CreateOrder([Bind("TotalPrice", "productlist")] ShoppingCart cart)
+        public async Task<ActionResult<Order>> CreateOrder([Bind("TotalPrice", "productlist")] ShoppingCart cart, IFormCollection form)
         {
-            //bool isAuthenticated = User.Identity.IsAuthenticated;
-            //if (isAuthenticated)
-            //{
+            var x = form["Payment method"];
                 var order = new Order()
                 {
                     ProductList = cart.productlist,
                     UserId = Guid.Parse(_userManager.GetUserId(User)),
                     TotalPrice = cart.TotalPrice,
                     Deliverd=false,
-                    //PaymentId=,
-                    //DeliveryId=
-                };
+                    PaymentId= int.Parse(form["Payment method"])
+            //DeliveryId=
+        };
 
                 await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
                 return View(order);
-            //}
-
-                //redirect to login page
-            //else
-            //{
-            //    TempData["LoginNeeded"] = "You have to Login before placing the order";
-            //    return RedirectToAction("GetCartContent", "ShoppingCart");
-            //}
-            // return View("Areas/Identity/Account/Manage/Index");
         }
     }
 }
