@@ -9,76 +9,81 @@
         You need to <a href="~/Identity/Account/Login">login</a> to place an order.
     </div>
 }
-@if (Model.cartItems != null && Model.TotalPrice > 0)
-{
-    <center><h1>Cart</h1></center>
-    <form method="post">
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Products
-                    </th>
-                    <th>
-                        Quantity
-                    </th>
-                    <th>
-                        Price
-                    </th>
-                    <th>
-
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.cartItems.Count; i++)
+<form method="post" asp-action="CreateOrder" asp-controller="Order" asp-route-productid=" ">
+    <div class="row">
+        <div class="col-lg-6">
+            @{
+                string disabled = "disabled";
+                string hidden = "hidden";
+                if (Model.cartItems != null)
                 {
-                    <tr>
-                        @Html.HiddenFor(x => x.cartItems[i].Product.Id)
-                        <td>
-                            @Html.DisplayFor(modelItem => Model.cartItems[i].Product.Name)
-                            @Html.HiddenFor(x => x.cartItems[i].Product.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => Model.cartItems[i].Quantity)
-                            @Html.HiddenFor(x => x.cartItems[i].Quantity)
-                            @Html.HiddenFor(x=>x.cartItems[i].Product.Quantity)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => Model.cartItems[i].Product.Price)
-                            @Html.HiddenFor(x => x.cartItems[i].Product.Price)
-                        </td>
-                        <td>
-                            <input type="submit" value="Remove" class="btn btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.cartItems[i].Product.Id" />
-                        </td>
-                    </tr>
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        disabled = "";
+                        hidden = "";
+                    }
+                    for (int i = 0; i < Model.cartItems.Count; i++)
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <img class="img" src="@Model.cartItems[i].Product.ImageUrl" style="height:auto; width:100%" />
+                                    </div>
+                                    <div class="col-3">
+                                        <p>Quantity:</p>
+                                        <p>Unit price:</p>
+                                        <p>Total Price:</p>
+                                    </div>
+                                    <div class="col-5">
+                                        <p>@Html.DisplayFor(modelItem => modelItem.cartItems[i].Quantity)</p>
+                                        <p>@Model.cartItems[i].Product.Price SEK</p>
+                                        <p>@{var tp = Model.cartItems[i].Product.Price * Model.cartItems[i].Quantity;} @tp SEK</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Id)
+                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.ImageUrl)
+                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Price)
+                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Quantity)
+                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Name)
+                    }
                 }
-            </tbody>
-        </table>
+            }
 
-        <div>
-            <p><b>Total: </b>@Math.Round(Model.TotalPrice) SEK</p>
-            <p style="color:gray;">(Excluding Delivery charges)</p>
-            @Html.HiddenFor(x => x.TotalPrice)
         </div>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <input value="Place order" type="submit" asp-action="CreateOrder" asp-controller="Order" asp-route-productid=" " class="btn btn-dark" />
-            <p>
-                Select Payment method:
-                @Html.DropDownList("Payment method", new List<SelectListItem>
-       {
-           new SelectListItem {Text="Card", Value="2", Selected=true},
-           new SelectListItem {Text="Swish", Value="1"}
-       })
-            </p>
-        }
 
-    </form>
-}
-else
-{
-    <p> Your shopping cart is empty</p>
-}
+        <div class="col-lg-6">
+            <div class="card border-0">
+                <div class="card-header" style="background-color:#ffffff">
+                    <h5>Order Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="clearfix" style="margin : 0 75px 0">
+                        <h6 class="float-left">Total price:</h6>
+                        <span class="float-right">@Model.TotalPrice SEK</span>
+                        @Html.HiddenFor(modelItem => modelItem.TotalPrice)
+                        </div>
+                        <div class="clearfix" style="margin : 0 75px 0" @hidden>
+                            <h6 class="float-left">Select Payment method:</h6>
+                            <span class="float-lg-right">
+                                @Html.DropDownList("Payment method", new List<SelectListItem>
+                       {
+                           new SelectListItem {Text="Card", Value="2", Selected=true},
+                           new SelectListItem {Text="Swish", Value="1"}
+                       })
+                            </span>
+                        </div>
+                    </div>
+
+                <div class="card-footer" style="background-color:#ffffff">
+                    <p><input type="submit" value="PLACE ORDER" class="btn btn-success btn-block" @disabled /></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
 
