@@ -4,7 +4,6 @@ using Group1.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,8 +37,8 @@ namespace Group1.Web.Controllers
                 cartItem = currentCartItems;
             }
 
-            //if the session cookie already contains the incoming productid , then increase the already eisting amount of that product by 1
-            if (currentCartItems != null && currentCartItems.Any(x => x.Product.Id== productid))
+            //if the session cookie already contains the incoming productid , then increase the already eisting quantity of that product by 1
+            if (currentCartItems != null && currentCartItems.Any(x => x.Product.Id == productid))
             {
                 int productindex = currentCartItems.FindIndex(x => x.Product.Id == productid);
                 currentCartItems[productindex].Quantity += 1;
@@ -48,7 +47,6 @@ namespace Group1.Web.Controllers
             //if the session doest contain the incoming productid, then create a new item with amount =1
             else
             {
-                // var product = _productRepository.GetProductById(productid);
                 Models.Product product = await _productServiceHandler.GetOneAsyn<Models.Product>($"{_apiRootUrl}/api/product/GetOne?id=" + productid);
 
                 CartItem newItem = new CartItem()
@@ -72,21 +70,15 @@ namespace Group1.Web.Controllers
 
             ShoppingCart shoppingCart = new ShoppingCart();
 
-            shoppingCart.productlist = cart;
+            shoppingCart.cartItems = cart;
 
             //calculate total price only if the cart contains data
             if (cart != null)
-            
-                shoppingCart.TotalPrice = (double)shoppingCart.productlist.Sum(x => x.Product.Price * x.Quantity);
+                shoppingCart.TotalPrice = (double)shoppingCart.cartItems.Sum(x => x.Product.Price * x.Quantity);
 
-                return View(shoppingCart);
-            
+            return View(shoppingCart);
 
-            //else
-            //{
-            //    return RedirectToAction("GetAllProducts", "Product");
-            //}
-         }
+        }
 
         [HttpPost]
         public IActionResult DeleteAnItem(int id)

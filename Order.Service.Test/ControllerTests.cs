@@ -17,39 +17,35 @@ namespace Order.Service.Test
             int createdorderId = 0;
             using (var client = new TestClientProvider().Client)
             {
-                var productList = new List<Models.Product>()
-                { new Models.Product(){ Id=1,Quantity=2},
-                  new Models.Product(){Id=3,Quantity=1}
-                };             
+                var product1 = new Models.Product() { Id = 1, Price = 50, Quantity = 10 };
+                var product2 = new Models.Product() { Id = 2, Price = 75, Quantity = 15 };
 
-                var payload2 = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
+                var cartItems = new List<Models.CartItem>()
+                { new Models.CartItem(){Product=product1,Quantity=1},
+                  new Models.CartItem(){Product=product2,Quantity=2}
+                };
+
+                var payload2 = JsonSerializer.Serialize(new Models.Cart()
                 {
                     UserId = Guid.NewGuid(),
                     PaymentId = 1,
                     DeliveryMethodId = 1,
-                    ProductList = productList
-
+                    CartItems = cartItems
                 }
-                    );
+                );
 
                 HttpContent content = new StringContent(payload2, Encoding.UTF8, "application/json");
 
-               var response = await client.PostAsync($"/api/order/CreateOrder", content);
+                var response = await client.PostAsync($"/api/order/CreateOrder", content);
 
                 using (var responseStream = await response.Content.ReadAsStreamAsync())
                 {
                     var order = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
                         new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-                    //Assert.NotNull(order);
-                    //Assert.NotEqual(0, order.Id);
-                    //response.EnsureSuccessStatusCode();
                     createdorderId = order.Id;
-
                     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
                 }
-
             }
         }
 
@@ -58,8 +54,7 @@ namespace Order.Service.Test
         {
             using (var client = new TestClientProvider().Client)
             {
-
-                var payload = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
+                var payload = JsonSerializer.Serialize(new Models.Cart()
                 { }
                 );
 
@@ -68,8 +63,6 @@ namespace Order.Service.Test
                 var response = await client.PostAsync($"/api/order/createorder", content);
 
                 Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-
-
             }
         }
 
@@ -78,7 +71,7 @@ namespace Order.Service.Test
         {
             using (var client = new TestClientProvider().Client)
             {
-                var payload = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel());
+                var payload = JsonSerializer.Serialize(new Models.Cart());
 
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
 
@@ -109,33 +102,34 @@ namespace Order.Service.Test
         {
             using (var client = new TestClientProvider().Client)
             {
+                var product1 = new Models.Product() { Id = 1, Price = 50, Quantity = 10 };
+                var product2 = new Models.Product() { Id = 2, Price = 75, Quantity = 15 };
 
-                var productList = new List<Models.Product>()
-                { new Models.Product(){ Id=1,Quantity=2},
-                  new Models.Product(){Id=3,Quantity=1}
+                var cartItems = new List<Models.CartItem>()
+                {
+                   new Models.CartItem(){Product=product1,Quantity=1},
+                   new Models.CartItem(){Product=product2,Quantity=2}
                 };
 
-
-                var payload = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
+                var payload = JsonSerializer.Serialize(new Models.Cart()
                 {
                     UserId = Guid.NewGuid(),
                     PaymentId = 2,
                     DeliveryMethodId = 2,
-                    ProductList = productList
+                    CartItems = cartItems
                 }
-                );               
+                );
 
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync($"/api/order/createorder", content);
 
-                Models.Order order = null;              
+                Models.Order order = null;
 
-                    
                 using (var responseStream = await response.Content.ReadAsStreamAsync())
                 {
                     order = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
-                          new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });                    
+                          new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
                 }
                 var deleteResponse = await client.DeleteAsync($"/api/order/deleteorder?orderId={order.Id}");
@@ -149,7 +143,6 @@ namespace Order.Service.Test
             }
 
         }
-
 
     }
 }

@@ -9,7 +9,7 @@ namespace Group1.Web.Models
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
-        public List<CartItem> ProductList { get; set; }
+        public List<CartItem> CartItems { get; set; }
         public double TotalPrice { get; set; }
         public int PaymentId { get; set; }
         public int DeliveryMethodId { get; set; }

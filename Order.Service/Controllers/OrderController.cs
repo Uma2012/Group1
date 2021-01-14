@@ -37,9 +37,9 @@ namespace Order.Service.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Models.Order> CreateOrder(Models.Viewmodels.OrderViewModel orderViewModel)
+        public ActionResult<Models.Order> CreateOrder(Models.Cart cart)
         {
-            var createdOrder = _orderRepository.Create(orderViewModel);
+            var createdOrder = _orderRepository.Create(cart);
             if (createdOrder != null)
             {
                 return Ok(createdOrder);

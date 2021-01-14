@@ -9,9 +9,8 @@
         You need to <a href="~/Identity/Account/Login">login</a> to place an order.
     </div>
 }
-@if (Model.productlist != null && Model.TotalPrice > 0)
+@if (Model.cartItems != null && Model.TotalPrice > 0)
 {
-
     <center><h1>Cart</h1></center>
     <form method="post">
 
@@ -33,24 +32,25 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < Model.productlist.Count; i++)
+                @for (int i = 0; i < Model.cartItems.Count; i++)
                 {
                     <tr>
-                        @Html.HiddenFor(x => x.productlist[i].Product.Id)
+                        @Html.HiddenFor(x => x.cartItems[i].Product.Id)
                         <td>
-                            @Html.DisplayFor(modelItem => Model.productlist[i].Product.Name)
-                            @Html.HiddenFor(x => x.productlist[i].Product.Name)
+                            @Html.DisplayFor(modelItem => Model.cartItems[i].Product.Name)
+                            @Html.HiddenFor(x => x.cartItems[i].Product.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => Model.productlist[i].Quantity)
-                            @Html.HiddenFor(x => x.productlist[i].Quantity)
+                            @Html.DisplayFor(modelItem => Model.cartItems[i].Quantity)
+                            @Html.HiddenFor(x => x.cartItems[i].Quantity)
+                            @Html.HiddenFor(x=>x.cartItems[i].Product.Quantity)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => Model.productlist[i].Product.Price)
-                            @Html.HiddenFor(x => x.productlist[i].Product.Price)
+                            @Html.DisplayFor(modelItem => Model.cartItems[i].Product.Price)
+                            @Html.HiddenFor(x => x.cartItems[i].Product.Price)
                         </td>
                         <td>
-                            <input type="submit" value="Remove" class="btn btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.productlist[i].Product.Id" />
+                            <input type="submit" value="Remove" class="btn btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.cartItems[i].Product.Id" />
                         </td>
                     </tr>
                 }

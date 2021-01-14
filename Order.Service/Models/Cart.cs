@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Order.Service.Models.Viewmodels
+namespace Order.Service.Models
 {
-    public class OrderViewModel
+    public class Cart
     {
-       
         public int Id { get; set; }
-        public Guid UserId { get; set; }        
-        public List<CartItem> ProductList { get; set; }
+        public Guid UserId { get; set; }
+        public List<CartItem> CartItems { get; set; }
         public int PaymentId { get; set; }
         public int DeliveryMethodId { get; set; }
         public double Totalprice { get; set; }
