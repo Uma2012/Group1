@@ -35,8 +35,8 @@ namespace Group1.Web.Controllers
                     UserId = Guid.Parse(_userManager.GetUserId(User)),
                     TotalPrice = cart.TotalPrice,
                     Deliverd=false,
-                    PaymentId= int.Parse(form["Payment method"])
-            //DeliveryId=
+                    PaymentId= int.Parse(form["Payment method"]),
+                    DeliveryMethodId = 1
         };
 
                 await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
