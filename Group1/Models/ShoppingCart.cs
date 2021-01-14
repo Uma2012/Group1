@@ -7,7 +7,7 @@ namespace Group1.Web.Models
 {
     public class ShoppingCart
     {
-        public List<CartItem> productlist { get; set; }
+        public List<CartItem> cartItems { get; set; }
         public double TotalPrice { get; set; }
         public Guid Userid { get; set; }
         public int PaymentId { get; set; }

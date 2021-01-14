@@ -17,7 +17,7 @@ namespace Order.Service.Context
         public DbSet<Models.Order> Orders { get; set; }
         public DbSet<Models.Delivery> Deliveries { get; set; }
         public DbSet<Models.PaymentMethod> PaymentMethods { get; set; }
-        public DbSet<Models.Product> Products { get; set; }
+       // public DbSet<Models.Product> Products { get; set; }
         public DbSet<Models.OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

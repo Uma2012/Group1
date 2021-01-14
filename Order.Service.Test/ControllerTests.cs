@@ -20,17 +20,17 @@ namespace Order.Service.Test
                 var product1 = new Models.Product() { Id = 1, Price = 50, Quantity = 10 };
                 var product2 = new Models.Product() { Id = 2, Price = 75, Quantity = 15 };
 
-                var cartItems = new List<Models.Viewmodels.CartItem>()
-                { new Models.Viewmodels.CartItem(){Product=product1,Quantity=1},
-                  new Models.Viewmodels.CartItem(){Product=product2,Quantity=2}
+                var cartItems = new List<Models.CartItem>()
+                { new Models.CartItem(){Product=product1,Quantity=1},
+                  new Models.CartItem(){Product=product2,Quantity=2}
                 };
 
-                var payload2 = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
+                var payload2 = JsonSerializer.Serialize(new Models.Cart()
                 {
                     UserId = Guid.NewGuid(),
                     PaymentId = 1,
                     DeliveryMethodId = 1,
-                    ProductList = cartItems
+                    CartItems = cartItems
                 }
                 );
 
@@ -54,7 +54,7 @@ namespace Order.Service.Test
         {
             using (var client = new TestClientProvider().Client)
             {
-                var payload = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
+                var payload = JsonSerializer.Serialize(new Models.Cart()
                 { }
                 );
 
@@ -71,7 +71,7 @@ namespace Order.Service.Test
         {
             using (var client = new TestClientProvider().Client)
             {
-                var payload = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel());
+                var payload = JsonSerializer.Serialize(new Models.Cart());
 
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
 
@@ -105,18 +105,18 @@ namespace Order.Service.Test
                 var product1 = new Models.Product() { Id = 1, Price = 50, Quantity = 10 };
                 var product2 = new Models.Product() { Id = 2, Price = 75, Quantity = 15 };
 
-                var cartItems = new List<Models.Viewmodels.CartItem>()
+                var cartItems = new List<Models.CartItem>()
                 {
-                   new Models.Viewmodels.CartItem(){Product=product1,Quantity=1},
-                   new Models.Viewmodels.CartItem(){Product=product2,Quantity=2}
+                   new Models.CartItem(){Product=product1,Quantity=1},
+                   new Models.CartItem(){Product=product2,Quantity=2}
                 };
 
-                var payload = JsonSerializer.Serialize(new Models.Viewmodels.OrderViewModel()
+                var payload = JsonSerializer.Serialize(new Models.Cart()
                 {
                     UserId = Guid.NewGuid(),
                     PaymentId = 2,
                     DeliveryMethodId = 2,
-                    ProductList = cartItems
+                    CartItems = cartItems
                 }
                 );
 
