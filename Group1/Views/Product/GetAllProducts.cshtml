@@ -13,7 +13,7 @@
                 <div class="card-body text-center">
                     <h4 class="card-title">@item.Name</h4>
                     <p class="card-text">@item.Price SEK</p>
-                    <a class="text-muted" asp-controller="Product" asp-action="GetOneProduct" asp-route-productid="@item.Id">Details</a><br />
+                    <a class="text-muted" asp-controller="Product" asp-action="GetOneProduct" asp-route-productid="@item.Id">Details</a><br /><br />
                     <input value="Add to cart" type="submit" asp-action="AddToCart" asp-controller="Shoppingcart" asp-route-productid="@item.Id" class="btn btn-dark" />
                 </div>
             </div>

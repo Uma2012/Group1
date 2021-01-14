@@ -13,10 +13,11 @@
         <b>Description: </b>@Model.Description<br />
 
     </div>
-    <div>
-        <br />
-        <input value="Add to cart" type="submit" asp-action="AddToCart" asp-controller="Shoppingcart" asp-route-productid="@Model.Id" class="btn btn-dark" /><br />
-        <br />
-        <a class="text-muted" asp-controller="Product" asp-action="GetAllProducts">Back to list</a>
-    </div>
+    <form method="post">        
+            <br />
+            <input value="Add to cart" type="submit" asp-action="AddToCart" asp-controller="Shoppingcart" asp-route-productid="@Model.Id" class="btn btn-dark" /><br />
+            <br />
+    </form>
+    <a class="text-muted" asp-controller="Product" asp-action="GetAllProducts">Back to list</a>
+    
 </center>
