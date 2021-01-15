@@ -30,9 +30,9 @@ namespace Order.Service.Repositories
             Models.OrderItem orderItem = null;
             Models.Order newOrder = null;
 
-            ////if delivery type Id=1 then add 50 to total price
-            //if (orderViewModel.PaymentId == 1)
-            //    orderViewModel.Totalprice = orderViewModel.Totalprice + 50;
+            //if delivery type Id=1 then add 50 to total price
+            if (cart.DeliveryMethodId == 1)
+                cart.Totalprice = cart.Totalprice + 50;
             try
             {
                 newOrder = new Models.Order()
