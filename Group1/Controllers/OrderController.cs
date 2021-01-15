@@ -26,17 +26,28 @@ namespace Group1.Web.Controllers
         [Authorize]
         public async Task<ActionResult<Order>> CreateOrder([Bind("TotalPrice", "cartItems")] ShoppingCart cart, IFormCollection form)
         {
+            var user = await _userManager.GetUserAsync(User);
+            
             var order = new Order()
             {
                 CartItems = cart.cartItems,
-                UserId = Guid.Parse(_userManager.GetUserId(User)),
+                //UserId = Guid.Parse(_userManager.GetUserId(User)),
+                UserId = Guid.Parse(user.Id),
                 TotalPrice = cart.TotalPrice,
                 Deliverd = false,
                 DeliveryMethodId = int.Parse(form["Shipping method"]),
-                PaymentId = int.Parse(form["Payment method"])
-            };
+                PaymentId = int.Parse(form["Payment method"]),
+                Address= user.Street + user.City+ user.PostalCode
+
+        };
 
             await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
+
+            order.Street = user.Street;
+            order.City = user.City;
+            order.PostalCode = user.PostalCode;
+
+
             return View(order);
 
         }

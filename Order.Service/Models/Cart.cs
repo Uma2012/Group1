@@ -13,6 +13,7 @@ namespace Order.Service.Models
         public int PaymentId { get; set; }
         public int DeliveryMethodId { get; set; }
         public double Totalprice { get; set; }
+        public string Address { get; set; }
     }
     public class CartItem
     {

@@ -42,7 +42,8 @@ namespace Order.Service.Repositories
                     PaymentId = cart.PaymentId,
                     DeliveryId = cart.DeliveryMethodId,
                     Deliverd = false,
-                    TotalPrice = cart.Totalprice
+                    TotalPrice = cart.Totalprice,
+                    Address=cart.Address
                 };
 
                 _context.Orders.Add(newOrder);

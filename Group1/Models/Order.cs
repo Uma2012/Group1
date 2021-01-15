@@ -14,5 +14,9 @@ namespace Group1.Web.Models
         public int PaymentId { get; set; }
         public int DeliveryMethodId { get; set; }
         public bool Deliverd { get; set; }
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string PostalCode { get; set; }
+        public string Address { get; set; }
     }
 }

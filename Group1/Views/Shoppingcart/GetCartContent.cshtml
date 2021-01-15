@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "GetCartContent";
 }
+
+@if (Model.cartItems != null && Model.TotalPrice>0)
+{
 @if (!User.Identity.IsAuthenticated)
 {
     <div class="alert alert-warning" role="alert">
@@ -49,8 +52,8 @@
                         @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Price)
                         @Html.HiddenFor(modelItem => modelItem.cartItems[i].Quantity)
                         @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Name)
-                    }
-                }
+                                                }
+                                            }
             }
 
         </div>
@@ -96,5 +99,11 @@
         </div>
     </div>
 </form>
+}
+else
+{
+<p>Your shopping cart is empty</p>
+}
 
 
+    
