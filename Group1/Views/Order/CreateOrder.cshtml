@@ -4,8 +4,12 @@
     ViewData["Title"] = "CreateOrder";
 }
 
-<h1>CreateOrder</h1>
+<h1>Order Confirmation</h1>
 
+<div class="alert alert-secondary m-3" role="alert">
+    <h4 class="alert-heading">Thank you @Model.FirstName &nbsp; @Model.LastName!</h4>
+    <p>Your order is Successfully created.</p>
+</div>
 <div>
     <h4>Order</h4>
     <hr />
@@ -28,18 +32,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TotalPrice)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PaymentId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PaymentId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeliveryMethodId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeliveryMethodId)
-        </dd>
+        
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Deliverd)
         </dt>
@@ -64,12 +57,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PostalCode)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+        
     </dl>
 </div>
 <div>

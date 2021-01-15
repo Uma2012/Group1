@@ -3,21 +3,50 @@
 @{
     ViewData["Title"] = "Details";
 }
-<center>
-    <h1>Details</h1>
-    <hr />
-    <div>
-        <h4>@Model.Name</h4>
-        <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Name" style="width:300px;"><br />
-        <b>Price: </b>@Model.Price SEK<br />
-        <b>Description: </b>@Model.Description<br />
+@*<center>
+        <h1>Details</h1>
+        <hr />
+        <div>
+            <h4>@Model.Name</h4>
+            <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Name" style="width:300px;"><br />
+            <b>Price: </b>@Model.Price SEK<br />
+            <b>Description: </b>@Model.Description<br />
+            <b>Availability: </b>@Model.Availability
 
+        </div>
+        @if (Model.Availability)
+        {
+        <form method="post">
+                <br />
+                <input value="Add to cart" type="submit" asp-action="AddToCart" asp-controller="Shoppingcart" asp-route-productid="@Model.Id" class="btn btn-dark" /><br />
+                <br />
+        </form>
+        }
+        <a class="text-muted" asp-controller="Product" asp-action="GetAllProducts">Back to list</a>
+
+    </center>*@
+
+<h1>ProductDetails</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 d-flex justify-content-center align-items-center overflow-hidden rounded">
+            <div >
+                <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Name" style="width:300px;"><br />
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 pl-sm-4">
+            <div class="container">
+                <b>Description: </b>@Model.Description<br />
+                <b>Price: </b>@Model.Price SEK<br />
+                <b>Available: </b>@Html.DisplayFor(x=>x.Availability)
+
+                <div class="text-center">
+                    <button onclick="history.back()" class="btn btn-dark">Back</button>
+                </div>
+
+            </div>
+        </div>
     </div>
-    <form method="post">        
-            <br />
-            <input value="Add to cart" type="submit" asp-action="AddToCart" asp-controller="Shoppingcart" asp-route-productid="@Model.Id" class="btn btn-dark" /><br />
-            <br />
-    </form>
-    <a class="text-muted" asp-controller="Product" asp-action="GetAllProducts">Back to list</a>
-    
-</center>
+</div>
+

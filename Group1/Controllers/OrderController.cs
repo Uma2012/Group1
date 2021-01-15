@@ -30,8 +30,7 @@ namespace Group1.Web.Controllers
             
             var order = new Order()
             {
-                CartItems = cart.cartItems,
-                //UserId = Guid.Parse(_userManager.GetUserId(User)),
+                CartItems = cart.cartItems,                
                 UserId = Guid.Parse(user.Id),
                 TotalPrice = cart.TotalPrice,
                 Deliverd = false,
@@ -46,6 +45,9 @@ namespace Group1.Web.Controllers
             order.Street = user.Street;
             order.City = user.City;
             order.PostalCode = user.PostalCode;
+            order.FirstName = user.FirstName;
+            order.LastName = user.LastName;
+
 
 
             return View(order);

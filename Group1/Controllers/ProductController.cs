@@ -18,7 +18,9 @@ namespace Group1.Web.Controllers
         public ProductController(ProductServiceHandler productServiceHandler, IConfiguration config)
         {
             _productService = productServiceHandler;
-            _productServiceRootUrl = config.GetValue(typeof(string), "ProductServiceURL").ToString();
+            _productServiceRootUrl = config["ProductServiceURL"];
+            //_productServiceRootUrl = config.GetValue(typeof(string), "ProductServiceURL").ToString();
+
 
         }
 
@@ -33,6 +35,8 @@ namespace Group1.Web.Controllers
         public async Task<ActionResult<Models.Product>> GetOneProduct(int productid)
         {
             var product = await _productService.GetOneAsyn<Models.Product>($"{_productServiceRootUrl}/api/product/Getone?id="+ productid);
+            if (product.Quantity < 1)
+                product.Availability = false;
             return View(product);
         }
     }
