@@ -41,8 +41,8 @@
                                     <div class="col-5">
                                         <p>@Html.DisplayFor(modelItem => modelItem.cartItems[i].Quantity)</p>
                                         <p>@Model.cartItems[i].Product.Price SEK</p>
-                                        <p>@{var tp = Model.cartItems[i].Product.Price * Model.cartItems[i].Quantity;} @tp SEK</p>
-                                        <input type="submit" value="Remove" class="btn btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.cartItems[i].Product.Id" />
+                                        <p>@{var tp = Model.cartItems[i].Product.Price * Model.cartItems[i].Quantity;} @tp SEK</p>                                       
+                                        <input type="submit" value="Remove" class="btn btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.cartItems[i].Product.Id" />                                       
                                     </div>
                                 </div>
                             </div>
@@ -51,9 +51,10 @@
                         @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.ImageUrl)
                         @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Price)
                         @Html.HiddenFor(modelItem => modelItem.cartItems[i].Quantity)
+                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Quantity)
                         @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Name)
-                                                }
-                                            }
+                    }
+                }
             }
 
         </div>

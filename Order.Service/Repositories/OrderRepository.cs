@@ -2,6 +2,7 @@ using Order.Service.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 
 namespace Order.Service.Repositories
 {
@@ -29,41 +30,56 @@ namespace Order.Service.Repositories
         {
             Models.OrderItem orderItem = null;
             Models.Order newOrder = null;
+            var orderItemLists = new List<Models.OrderItem>();
+
 
             //if delivery type Id=1 then add 50 to total price
             if (cart.DeliveryMethodId == 1)
                 cart.Totalprice = cart.Totalprice + 50;
+
             try
             {
-                newOrder = new Models.Order()
+                using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    UserId = cart.UserId,
-                    OrderDate = DateTime.Now,
-                    PaymentId = cart.PaymentId,
-                    DeliveryId = cart.DeliveryMethodId,
-                    Deliverd = false,
-                    TotalPrice = cart.Totalprice,
-                    Address=cart.Address
-                };
-
-                _context.Orders.Add(newOrder);
-                _context.SaveChanges();
-
-
-                foreach (var item in cart.CartItems)
-                {
-                    orderItem = new Models.OrderItem()
+                    newOrder = new Models.Order()
                     {
-                        OrderId = newOrder.Id,
-                        ProductId = item.Product.Id,
-                        Quantity = item.Quantity
+                        UserId = cart.UserId,
+                        OrderDate = DateTime.Now,
+                        PaymentId = cart.PaymentId,
+                        DeliveryId = cart.DeliveryMethodId,
+                        Deliverd = false,
+                        TotalPrice = cart.Totalprice,
+                        Address = cart.Address
                     };
-                    _context.OrderItems.Add(orderItem);
+
+                    _context.Orders.Add(newOrder);
                     _context.SaveChanges();
+
+
+                    foreach (var item in cart.CartItems)
+                    {
+                        //    if (item.Product.Quantity > item.Quantity)
+                        //    {
+                        orderItem = new Models.OrderItem()
+                            {
+                                OrderId = newOrder.Id,
+                                ProductId = item.Product.Id,
+                                Quantity = item.Quantity
+                            };
+                            orderItemLists.Add(orderItem);
+                           
+                        //}
+                        //_ = orderItem ?? throw new ArgumentException("orderItem shouldn't be null", nameof(orderItem));
+                        
+                        _context.OrderItems.AddRange(orderItemLists);
+                        _context.SaveChanges();
+                        transaction.Complete();
+                    }
                 }
             }
             catch (Exception e)
             {
+
                 return null;
             }
 
