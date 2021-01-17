@@ -34,7 +34,7 @@ namespace Group1.Web.Controllers
                 UserId = Guid.Parse(user.Id),
                 TotalPrice = cart.TotalPrice,
                 Deliverd = false,
-                DeliveryMethodId = int.Parse(form["Shipping method"]),
+                DeliveryMethodId = int.Parse(form["deliveryMethod"]),
                 PaymentId = int.Parse(form["Payment method"]),
                 Address= user.Street + user.City+ user.PostalCode
 

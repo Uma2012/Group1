@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "GetCartContent";
 }
-
+<script src="~/js/checkFee.js" asp-append-version="true"></script>
 @if (Model.cartItems != null && Model.TotalPrice>0)
 {
 @if (!User.Identity.IsAuthenticated)
@@ -66,7 +66,7 @@
                 </div>
                 <div class="card-body">
                     <div class="clearfix" style="margin : 0 75px 0">
-                        <h6 class="float-left">Total price:</h6>
+                        <h6 class="float-left">Subtotal:</h6>
                         <span class="float-right">@Model.TotalPrice SEK</span>
                         @Html.HiddenFor(modelItem => modelItem.TotalPrice)
                     </div>
@@ -82,21 +82,22 @@
                     </div>
                     <div class="clearfix" style="margin : 0 75px 0" @hidden>
                         <h6 class="float-left">Shipping method:</h6>
-                        <span class="float-lg-right">
-                            @Html.DropDownList("Shipping method", new List<SelectListItem>
-                   {
-                       new SelectListItem {Text="Homedelivery", Value="1"},
-                       new SelectListItem {Text="Takeaway", Value="2", Selected=true}
-                   })
+                        <span class="float-lg-right" name="DeliveryFee">
+                            <input type="radio" name="deliveryMethod" value="1" onchange="checkFee()"> Home delivery<br>
+                            <input type="radio" name="deliveryMethod" value="2" onchange="checkFee()" />Take away <br>
                         </span>
                     </div>
-                </div>
-               
-                <div class="card-footer" style="background-color:#ffffff">
-                    <p><input type="submit" value="PLACE ORDER" class="btn btn-success btn-block" @disabled /></p>
+                    <div class="clearfix" style="margin : 0 75px 0" @hidden>
+                        <h6 class="float-left">Shipping fee:</h6>
+                        <span class="float-lg-right" id="shippingFee">0 SEK</span>
+                    </div>
                 </div>
 
-            </div>
+                    <div class="card-footer" style="background-color:#ffffff">
+                        <p><input type="submit" value="PROCEED TO CHECKOUT" class="btn btn-success btn-block" @disabled /></p>
+                    </div>
+
+                </div>
         </div>
     </div>
 </form>
