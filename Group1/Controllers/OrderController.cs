@@ -27,7 +27,7 @@ namespace Group1.Web.Controllers
         public async Task<ActionResult<Order>> CreateOrder([Bind("TotalPrice", "cartItems")] ShoppingCart cart, IFormCollection form)
         {
             var user = await _userManager.GetUserAsync(User);
-            
+
             var order = new Order()
             {
                 CartItems = cart.cartItems,                
@@ -35,7 +35,7 @@ namespace Group1.Web.Controllers
                 TotalPrice = cart.TotalPrice,
                 Deliverd = false,
                 DeliveryMethodId = int.Parse(form["deliveryMethod"]),
-                PaymentId = int.Parse(form["Payment method"]),
+                PaymentId = int.Parse(form["paymentMethod"]),
                 Address= user.Street + user.City+ user.PostalCode
 
         };
