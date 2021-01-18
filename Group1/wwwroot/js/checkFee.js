@@ -16,3 +16,30 @@
     var totalPrice = +subtotal + +fee;
     document.getElementById('totalPrice').innerText = totalPrice + " SEK"
 }
+
+function requiredCheck()
+{
+    var selectedDelivery = document.getElementsByName("deliveryMethod");
+    var SelectedPayment = document.getElementsByName("paymentMethod");
+    var i = 0;
+    var selected = false;
+
+    while (!selected && i < selectedDelivery.length)
+    {
+        if (selectedDelivery[i].checked) selected = true;
+        i++;  
+    }
+    if (!selected) alert("Must check shipping!");
+
+
+    i = 0;
+    selected = false;
+    while (!selected && i < SelectedPayment.length) {
+        if (SelectedPayment[i].checked) selected = true;
+        i++;
+    }
+    if (!selected) alert("Must check payment!");
+
+    return selected;
+
+}
