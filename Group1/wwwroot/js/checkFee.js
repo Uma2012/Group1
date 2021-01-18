@@ -31,7 +31,6 @@ function requiredCheck()
     }
     if (!selected) alert("Must check shipping!");
 
-
     i = 0;
     selected = false;
     while (!selected && i < SelectedPayment.length) {
