@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "GetCartContent";
 }
-
+<link rel="stylesheet" href="~/css/cardRadioStyle.css" />
 @if (Model.cartItems != null && Model.TotalPrice > 0)
 {
     @if (!User.Identity.IsAuthenticated)
@@ -71,20 +71,24 @@
                             @Html.HiddenFor(modelItem => modelItem.TotalPrice)
                         </div>
                         <div class="clearfix" style="margin : 0 75px 0" @hidden>
-                            <h6 class="float-left">Payment method:</h6>
+                            <h6 class="float-left">Payment:</h6>
                             <span class="float-lg-right">
-                                @Html.DropDownList("Payment method", new List<SelectListItem>
-                       {
-                           new SelectListItem {Text="Swish", Value="1"},
-                           new SelectListItem {Text="Card", Value="2", Selected=true}
-                       })
+                                <input class="hidden radio-label" id="swish-button" type="radio" name="paymentMethod" value="1" onchange="payment()" required>
+                                <label class="button-label" for="swish-button">Swish</label>
+
+                                <input class="hidden radio-label" id="card-button" type="radio" name="paymentMethod" value="2" onchange="payment()">
+                                <label class="button-label" for="card-button">Card</label>
                             </span>
                         </div>
                         <div class="clearfix" style="margin : 0 75px 0" @hidden>
-                            <h6 class="float-left">Shipping method:</h6>
-                            <span class="float-lg-right" name="DeliveryFee">
-                                <input type="radio" name="deliveryMethod" value="1" onchange="checkFee()" required> Home delivery<br>
-                                <input type="radio" name="deliveryMethod" value="2" onchange="checkFee()" />Take away <br>
+                            <h6 class="float-left">Shipping:</h6>
+                            <span class="float-lg-right">
+                                <input class="hidden radio-label" id="homeDelivery-button" type="radio" name="deliveryMethod" value="1" onchange="checkFee()" required>
+                                <label class="button-label" for="homeDelivery-button">Home delivery</label>
+
+                                <input class="hidden radio-label" id="TakeAway-button" type="radio" name="deliveryMethod" value="2" onchange="checkFee()">
+                                <label class="button-label" for="TakeAway-button">Take away</label>
+
                             </span>
                         </div>
                         <div class="clearfix" style="margin : 0 75px 0" @hidden>
@@ -97,14 +101,14 @@
                         </div>
                     </div>
 
-                    <div class="card-footer" style="background-color:#ffffff">
-                        <p><input type="submit" value="PROCEED TO CHECKOUT" class="btn btn-success btn-block" @disabled /></p>
+                    <div class="card-footer" style="background-color:#ffffff" >
+                        <p><input type="submit" value="PROCEED TO CHECKOUT" class="btn btn-success btn-block" onclick="requiredCheck()" @disabled /></p>
                     </div>
 
                 </div>
             </div>
         </div>
-    </form>
+</form>
 }
 else
 {
