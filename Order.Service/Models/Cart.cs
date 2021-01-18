@@ -11,7 +11,7 @@ namespace Order.Service.Models
         public Guid UserId { get; set; }
         public List<CartItem> CartItems { get; set; }
         public int PaymentId { get; set; }
-        public int DeliveryMethodId { get; set; }
+        public int DeliveryId { get; set; }
         public double Totalprice { get; set; }
         public string Address { get; set; }
     }

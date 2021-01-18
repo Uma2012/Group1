@@ -41,7 +41,7 @@ namespace Order.Service.Repositories
 
 
             //if delivery type Id=1 then add 50 to total price
-            if (cart.DeliveryMethodId == 1)
+            if (cart.DeliveryId == 1)
                 cart.Totalprice = cart.Totalprice + 50;
 
             try
@@ -53,7 +53,7 @@ namespace Order.Service.Repositories
                         UserId = cart.UserId,
                         OrderDate = DateTime.Now,
                         PaymentId = cart.PaymentId,
-                        DeliveryId = cart.DeliveryMethodId,
+                        DeliveryId = cart.DeliveryId,
                         Deliverd = false,
                         TotalPrice = cart.Totalprice,
                         Address = cart.Address

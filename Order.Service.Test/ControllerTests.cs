@@ -29,7 +29,7 @@ namespace Order.Service.Test
                 {
                     UserId = Guid.NewGuid(),
                     PaymentId = 1,
-                    DeliveryMethodId = 1,
+                    DeliveryId = 1,
                     CartItems = cartItems
                 }
                 );
