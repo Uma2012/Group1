@@ -1,111 +1,113 @@
 ﻿@model Group1.Web.Models.ShoppingCart
-
+@using Newtonsoft.Json
 @{
     ViewData["Title"] = "GetCartContent";
 }
-<script src="~/js/checkFee.js" asp-append-version="true"></script>
-@if (Model.cartItems != null && Model.TotalPrice>0)
+
+@if (Model.cartItems != null && Model.TotalPrice > 0)
 {
-@if (!User.Identity.IsAuthenticated)
-{
-    <div class="alert alert-warning" role="alert">
-        You need to <a href="~/Identity/Account/Login">login</a> to place an order.
-    </div>
-}
-<form method="post" asp-action="CreateOrder" asp-controller="Order">
-    <div class="row">
-        <div class="col-lg-6">
-            @{
-                string disabled = "disabled";
-                string hidden = "hidden";
-                if (Model.cartItems != null)
-                {
-                    if (User.Identity.IsAuthenticated)
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="alert alert-warning" role="alert">
+            You need to <a href="~/Identity/Account/Login">login</a> to place an order.
+        </div>
+    }
+    <form method="post" asp-action="CreateOrder" asp-controller="Order">
+        <div class="row">
+            <div class="col-lg-6">
+                @{
+                    string disabled = "disabled";
+                    string hidden = "hidden";
+                    double productsPrice = Model.TotalPrice;
+                    if (Model.cartItems != null)
                     {
-                        disabled = "";
-                        hidden = "";
-                    }
-                    for (int i = 0; i < Model.cartItems.Count; i++)
-                    {
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img class="img" src="@Model.cartItems[i].Product.ImageUrl" style="height:auto; width:100%" />
-                                    </div>
-                                    <div class="col-3">
-                                        <p>Quantity:</p>
-                                        <p>Unit price:</p>
-                                        <p>Total Price:</p>
-                                    </div>
-                                    <div class="col-5">
-                                        <p>@Html.DisplayFor(modelItem => modelItem.cartItems[i].Quantity)</p>
-                                        <p>@Model.cartItems[i].Product.Price SEK</p>
-                                        <p>@{var tp = Model.cartItems[i].Product.Price * Model.cartItems[i].Quantity;} @tp SEK</p>                                       
-                                        <input type="submit" value="Remove" class="btn btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.cartItems[i].Product.Id" />                                       
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            disabled = "";
+                            hidden = "";
+                        }
+                        for (int i = 0; i < Model.cartItems.Count; i++)
+                        {
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <img class="img" src="@Model.cartItems[i].Product.ImageUrl" style="height:auto; width:100%" />
+                                        </div>
+                                        <div class="col-3">
+                                            <p>Quantity:</p>
+                                            <p>Unit price:</p>
+                                            <p>Total Price:</p>
+                                        </div>
+                                        <div class="col-5">
+                                            <p>@Html.DisplayFor(modelItem => modelItem.cartItems[i].Quantity)</p>
+                                            <p>@Model.cartItems[i].Product.Price SEK</p>
+                                            <p>@{var tp = Model.cartItems[i].Product.Price * Model.cartItems[i].Quantity;} @tp SEK</p>
+                                            <input type="submit" value="Remove" class="btn btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.cartItems[i].Product.Id" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Id)
-                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.ImageUrl)
-                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Price)
-                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Quantity)
-                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Quantity)
-                        @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Name)
+                            @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Id)
+                            @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.ImageUrl)
+                            @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Price)
+                            @Html.HiddenFor(modelItem => modelItem.cartItems[i].Quantity)
+                            @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Quantity)
+                            @Html.HiddenFor(modelItem => modelItem.cartItems[i].Product.Name)
+                        }
                     }
                 }
-            }
 
-        </div>
+            </div>
 
-        <div class="col-lg-6">
-            <div class="card border-0">
-                <div class="card-header" style="background-color:#ffffff">
-                    <h5>Order Details</h5>
-                </div>
-                <div class="card-body">
-                    <div class="clearfix" style="margin : 0 75px 0">
-                        <h6 class="float-left">Subtotal:</h6>
-                        <span class="float-right">@Model.TotalPrice SEK</span>
-                        @Html.HiddenFor(modelItem => modelItem.TotalPrice)
+            <div class="col-lg-6">
+                <div class="card border-0">
+                    <div class="card-header" style="background-color:#ffffff">
+                        <h5>Order Details</h5>
                     </div>
-                    <div class="clearfix" style="margin : 0 75px 0" @hidden>
-                        <h6 class="float-left">Payment method:</h6>
-                        <span class="float-lg-right">
-                            @Html.DropDownList("Payment method", new List<SelectListItem>
-                   {
-                       new SelectListItem {Text="Swish", Value="1"},
-                       new SelectListItem {Text="Card", Value="2", Selected=true}
-                   })
-                        </span>
+                    <div class="card-body">
+                        <div class="clearfix" style="margin : 0 75px 0">
+                            <h6 class="float-left">Subtotal:</h6>
+                            <span class="float-right">@Model.TotalPrice SEK</span>
+                            @Html.HiddenFor(modelItem => modelItem.TotalPrice)
+                        </div>
+                        <div class="clearfix" style="margin : 0 75px 0" @hidden>
+                            <h6 class="float-left">Payment method:</h6>
+                            <span class="float-lg-right">
+                                @Html.DropDownList("Payment method", new List<SelectListItem>
+                       {
+                           new SelectListItem {Text="Swish", Value="1"},
+                           new SelectListItem {Text="Card", Value="2", Selected=true}
+                       })
+                            </span>
+                        </div>
+                        <div class="clearfix" style="margin : 0 75px 0" @hidden>
+                            <h6 class="float-left">Shipping method:</h6>
+                            <span class="float-lg-right" name="DeliveryFee">
+                                <input type="radio" name="deliveryMethod" value="1" onchange="checkFee()"> Home delivery<br>
+                                <input type="radio" name="deliveryMethod" value="2" onchange="checkFee()" />Take away <br>
+                            </span>
+                        </div>
+                        <div class="clearfix" style="margin : 0 75px 0" @hidden>
+                            <h6 class="float-left">Shipping fee:</h6>
+                            <span class="float-lg-right" id="shippingFee">0 SEK</span>
+                        </div>
+                        <div class="clearfix" style="margin : 0 75px 0" @hidden>
+                            <h6 class="float-left">Total:</h6>
+                            <span class="float-lg-right" id="totalPrice">@Model.TotalPrice SEK</span>
+                        </div>
                     </div>
-                    <div class="clearfix" style="margin : 0 75px 0" @hidden>
-                        <h6 class="float-left">Shipping method:</h6>
-                        <span class="float-lg-right" name="DeliveryFee">
-                            <input type="radio" name="deliveryMethod" value="1" onchange="checkFee()"> Home delivery<br>
-                            <input type="radio" name="deliveryMethod" value="2" onchange="checkFee()" />Take away <br>
-                        </span>
-                    </div>
-                    <div class="clearfix" style="margin : 0 75px 0" @hidden>
-                        <h6 class="float-left">Shipping fee:</h6>
-                        <span class="float-lg-right" id="shippingFee">0 SEK</span>
-                    </div>
-                </div>
 
                     <div class="card-footer" style="background-color:#ffffff">
                         <p><input type="submit" value="PROCEED TO CHECKOUT" class="btn btn-success btn-block" @disabled /></p>
                     </div>
 
                 </div>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 }
 else
 {
-<p>Your shopping cart is empty</p>
+    <p>Your shopping cart is empty</p>
 }
-
-
-    
