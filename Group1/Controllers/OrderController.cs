@@ -38,7 +38,7 @@ namespace Group1.Web.Controllers
                 TotalPrice = cart.TotalPrice,
                 Deliverd = false,
                 DeliveryId = int.Parse(form["deliveryMethod"]),
-                PaymentId = int.Parse(form["Payment method"]),
+                PaymentId = int.Parse(form["Paymentmethod"]),
                 Address= user.Street + user.City+ user.PostalCode
             };
 
