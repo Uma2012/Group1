@@ -12,6 +12,7 @@ namespace Group1.Web.Controllers
 {
     public class OrderController : Controller
     {
+        private readonly string _cartName;
         private readonly OrderServiceHandler _orderService;
         private readonly UserManager<CustomUser> _userManager;
         private readonly string _orderServiceRootUrl;
@@ -20,6 +21,7 @@ namespace Group1.Web.Controllers
             _orderService = productServiceHandler;
             this._userManager = userManager;
             _orderServiceRootUrl = config["OrderServiceURL"];
+            this._cartName = config["CartSessionCookie:Name"];
 
         }
 
@@ -48,8 +50,9 @@ namespace Group1.Web.Controllers
             order.FirstName = user.FirstName;
             order.LastName = user.LastName;
 
-
-
+            //Clear the session cookies once the order is created
+            if (HttpContext.Session.GetString(_cartName) != null)
+                HttpContext.Session.Remove(_cartName);
             return View(order);
 
         }
