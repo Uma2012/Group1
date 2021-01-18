@@ -144,5 +144,18 @@ namespace Order.Service.Test
 
         }
 
+        [Fact]
+        public async Task GetAllOrders_Succeed()
+        {
+            using (var client = new TestClientProvider().Client)
+            {
+                var response = await client.GetAsync("/api/order/getallorders");
+
+                response.EnsureSuccessStatusCode();
+
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            }
+        }
+
     }
 }

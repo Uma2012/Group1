@@ -8,10 +8,17 @@ namespace Order.Service.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        private readonly OrderDbContext _context;
+        private readonly OrderDbContext _context;        
+
         public OrderRepository(OrderDbContext context)
         {
             _context = context;
+        }
+
+        public List<Models.Order> GetAll() 
+        {
+            var orders = _context.Orders.ToList();
+            return orders;
         }
 
         public Models.Order GetOrderById(int id)
@@ -86,7 +93,7 @@ namespace Order.Service.Repositories
             return newOrder;
         }
 
-        public bool Delete(int orderId)
+        public Models.Order Delete(int orderId)
         {
             var order = GetOrderById(orderId);
             try
@@ -96,30 +103,30 @@ namespace Order.Service.Repositories
                     _context.Orders.Remove(order);
                     _context.SaveChanges();
                 }
-                var orderItems = GetOrderItemsOfGivenOrderId(orderId);
-                if (orderItems != null)
-                {
-                    _context.OrderItems.RemoveRange(orderItems);
-                    _context.SaveChanges();
-                }
+                //var orderItems = GetOrderItemsOfGivenOrderId(orderId);
+                //if (orderItems != null)
+                //{
+                //    _context.OrderItems.RemoveRange(orderItems);
+                //    _context.SaveChanges();
+                //}
             }
             catch
             {
-                return false;
+                return null;
             }
-            return true;
+            return order;
         }
 
-        public List<Models.OrderItem> GetOrderItemsOfGivenOrderId(int orderId)
-        {
-            var orderItems = _context.OrderItems.FirstOrDefault(x => x.OrderId == orderId);
-            if (orderItems != null)
-            {
-                List<Models.OrderItem> orderItemsList = new List<Models.OrderItem>();
-                orderItemsList = _context.OrderItems.Where(x => x.OrderId == orderId).ToList();
-                return orderItemsList;
-            }
-            return null;
-        }
+        //public List<Models.OrderItem> GetOrderItemsOfGivenOrderId(int orderId)
+        //{
+        //    var orderItems = _context.OrderItems.FirstOrDefault(x => x.OrderId == orderId);
+        //    if (orderItems != null)
+        //    {
+        //        List<Models.OrderItem> orderItemsList = new List<Models.OrderItem>();
+        //        orderItemsList = _context.OrderItems.Where(x => x.OrderId == orderId).ToList();
+        //        return orderItemsList;
+        //    }
+        //    return null;
+        //}
     }
 }

@@ -18,6 +18,18 @@ namespace Order.Service.Controllers
         }
 
         [HttpGet]
+        public ActionResult<List<Models.Order>> GetAllOrders()
+        {
+            var orders = _orderRepository.GetAll();
+            if (orders == null)
+            {
+                return NotFound();
+            }
+            return Ok(orders);
+
+        }
+
+        [HttpGet]
         public ActionResult<Models.Order> GetOne(int id)
         {
             var order = _orderRepository.GetOrderById(id);
@@ -49,12 +61,12 @@ namespace Order.Service.Controllers
         }
 
         [HttpDelete]
-        public ActionResult<int> DeleteOrder(int orderId)
+        public ActionResult<Models.Order> DeleteOrder(int orderId)
         {
-            var wasDeleted = _orderRepository.Delete(orderId);
-            if (wasDeleted)
+            var deletedorder = _orderRepository.Delete(orderId);
+            if (deletedorder!=null)
             {
-                return Ok(orderId);
+                return Ok(deletedorder);
             }
             else
                 return NotFound();

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Group1.Web.Controllers
@@ -36,11 +37,10 @@ namespace Group1.Web.Controllers
                 UserId = Guid.Parse(user.Id),
                 TotalPrice = cart.TotalPrice,
                 Deliverd = false,
-                DeliveryMethodId = int.Parse(form["deliveryMethod"]),
+                DeliveryId = int.Parse(form["deliveryMethod"]),
                 PaymentId = int.Parse(form["Payment method"]),
                 Address= user.Street + user.City+ user.PostalCode
-
-        };
+            };
 
             await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
 
@@ -56,5 +56,36 @@ namespace Group1.Web.Controllers
             return View(order);
 
         }
+
+        [Authorize]
+        public async Task<ActionResult<List<Order>>> GetAllOrder()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            List<Models.Order> allorders = await _orderService.GetAllAsync<Models.Order>($"{_orderServiceRootUrl}/api/order/getallorders");
+            foreach (var item in allorders)
+            {
+                item.FirstName = user.FirstName;
+                item.LastName = user.LastName;
+            }
+
+
+            return View(allorders);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> DeleteOrder(int orderId)
+        {
+            await _orderService.DeleteOneAsync<Models.Order>($"{_orderServiceRootUrl}/api/order/DeleteOrder?orderId=" +orderId);
+            return RedirectToAction("GetAllOrder","Order");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult> UpdateDeliveryStatus(IFormCollection form)
+        {
+           
+            return View();
+        }
     }
+   
 }

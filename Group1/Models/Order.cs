@@ -12,7 +12,7 @@ namespace Group1.Web.Models
         public List<CartItem> CartItems { get; set; }
         public double TotalPrice { get; set; }
         public int PaymentId { get; set; }
-        public int DeliveryMethodId { get; set; }
+        public int DeliveryId { get; set; }
         public bool Deliverd { get; set; }
         public string Street { get; set; }
         public string City { get; set; }

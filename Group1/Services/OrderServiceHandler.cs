@@ -22,6 +22,21 @@ namespace Group1.Web.Services
         {
             _client = clientFactory.CreateClient();
         }
+
+        public async Task<List<T>> GetAllAsync<T>(string webServicePath)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, webServicePath);
+
+            request = SetHeaders(request);
+
+            var response = await _client.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                return await DeserializeResponse<List<T>>(response);
+            }
+
+            return null;
+        }
         public async Task PostAsync<T>(T obj, string webApiPath)
         {
 
@@ -36,6 +51,18 @@ namespace Group1.Web.Services
             var response = await _client.SendAsync(request);
             var responseString = await response.Content.ReadAsStreamAsync();
 
+        }
+
+        public async Task<T> DeleteOneAsync<T>(string webServicePath) where T : class
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete, webServicePath);
+            request = SetHeaders(request);
+            var response = await _client.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                return await DeserializeResponse<T>(response);
+            }
+            return null;
         }
 
         private HttpRequestMessage SetHeaders(HttpRequestMessage request)

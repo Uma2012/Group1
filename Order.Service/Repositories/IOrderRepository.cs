@@ -7,9 +7,11 @@ namespace Order.Service.Repositories
 {
     public interface IOrderRepository
     {
+        public List<Models.Order> GetAll();
         public Models.Order GetOrderById(int id);
         public List<Models.Order> GetByDeliveryStatus(bool delivery);       
         public Models.Order Create(Models.Cart cart);
-        public bool Delete(int orderId);
+        public Models.Order Delete(int orderId);
+        
     }
 }
