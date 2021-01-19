@@ -73,20 +73,20 @@
                         <div class="clearfix" style="margin : 0 75px 0" @hidden>
                             <h6 class="float-left">Payment:</h6>
                             <span class="float-lg-right">
-                                <input class="hidden radio-label" id="swish-button" type="radio" name="paymentMethod" value="1" onchange="payment()" required>
+                                <input class="hidden radio-label" id="swish-button" type="radio" name="paymentMethod" value="1" onchange="payment()" @*required*@>
                                 <label class="button-label" for="swish-button">Swish</label>
 
-                                <input class="hidden radio-label" id="card-button" type="radio" name="paymentMethod" value="2" onchange="payment()">
+                                <input class="hidden radio-label" id="card-button" type="radio" name="paymentMethod" value="2" onchange="payment()" checked="checked">
                                 <label class="button-label" for="card-button">Card</label>
                             </span>
                         </div>
                         <div class="clearfix" style="margin : 0 75px 0" @hidden>
                             <h6 class="float-left">Shipping:</h6>
                             <span class="float-lg-right">
-                                <input class="hidden radio-label" id="homeDelivery-button" type="radio" name="deliveryMethod" value="1" onchange="checkFee()" required>
+                                <input class="hidden radio-label" id="homeDelivery-button" type="radio" name="deliveryMethod" value="1" onchange="checkFee()" @*required*@>
                                 <label class="button-label" for="homeDelivery-button">Home delivery</label>
 
-                                <input class="hidden radio-label" id="TakeAway-button" type="radio" name="deliveryMethod" value="2" onchange="checkFee()">
+                                <input class="hidden radio-label" id="TakeAway-button" type="radio" name="deliveryMethod" value="2" onchange="checkFee()" checked="checked">
                                 <label class="button-label" for="TakeAway-button">Take away</label>
 
                             </span>
@@ -102,7 +102,7 @@
                     </div>
 
                     <div class="card-footer" style="background-color:#ffffff" >
-                        <p><input type="submit" value="PROCEED TO CHECKOUT" class="btn btn-success btn-block" onclick="requiredCheck()" @disabled /></p>
+                        <p><input type="submit" value="PROCEED TO CHECKOUT" class="btn btn-success btn-block" @*onclick="requiredCheck()"*@ @disabled /></p>
                     </div>
 
                 </div>
