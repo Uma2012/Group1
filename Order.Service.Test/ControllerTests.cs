@@ -115,7 +115,7 @@ namespace Order.Service.Test
                 {
                     UserId = Guid.NewGuid(),
                     PaymentId = 2,
-                    DeliveryMethodId = 2,
+                    DeliveryId = 2,
                     CartItems = cartItems
                 }
                 );
