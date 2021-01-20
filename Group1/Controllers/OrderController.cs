@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ namespace Group1.Web.Controllers
                 item.LastName = user.LastName;
             }
 
-
+            SetCurrentDeliveryStatus();
             return View(allorders);
         }
 
@@ -83,9 +84,26 @@ namespace Group1.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdateDeliveryStatus(IFormCollection form)
         {
-           
+
             return View();
         }
+
+        private void SetCurrentDeliveryStatus()
+        {
+            List<SelectListItem> DeliveryStatus = new List<SelectListItem>();
+            DeliveryStatus.Add(new SelectListItem
+            {
+                Text = "No",
+                Value = bool.FalseString
+
+            });
+            DeliveryStatus.Add(new SelectListItem
+            {
+                Text = "Yes",
+                Value = bool.TrueString
+            });
+            ViewData["DeliveryStatus"] = DeliveryStatus;
+        }
     }
-   
+
 }
