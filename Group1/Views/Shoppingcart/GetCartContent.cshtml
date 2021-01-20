@@ -1,0 +1,52 @@
+﻿@model Group1.Web.Models.ShoppingCart
+
+@{
+    ViewData["Title"] = "GetCartContent";
+}
+
+<center><h1>Cart</h1></center>
+<form method="post">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Products
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.productlist.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.productlist[i].Product.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.productlist[i].Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.productlist[i].Product.Price)
+                    </td>
+                    <td>
+                        <input type="submit" value="Remove" class="btn-danger" asp-action="DeleteAnItem" asp-controller="ShoppingCart" asp-route-id="@Model.productlist[i].Product.Id" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p><b>Total: </b>@Math.Round(Model.TotalPrice) SEK</p>
+
+</form>
+
+<input value="Place order" type="submit" asp-action=" " asp-controller=" " asp-route-productid=" " class="btn btn-dark" />
