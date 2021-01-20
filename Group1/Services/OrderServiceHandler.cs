@@ -37,10 +37,10 @@ namespace Group1.Web.Services
 
             return null;
         }
-        public async Task PostAsync<T>(T obj, string webApiPath)
+        public async Task PostAsync<T>(T obj, string webServicePath)
         {
 
-            var request = new HttpRequestMessage(HttpMethod.Post, webApiPath);
+            var request = new HttpRequestMessage(HttpMethod.Post, webServicePath);
             request = SetHeaders(request);
 
             // Serialize object to JSON
@@ -63,6 +63,20 @@ namespace Group1.Web.Services
                 return await DeserializeResponse<T>(response);
             }
             return null;
+        }
+
+        public async Task UpdateDeliveryStatus<T>(T obj, string webServicepath)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Put, webServicepath);
+            request = SetHeaders(request);
+
+            // Serialize object to JSON
+            var serialized = JsonSerializer.Serialize(obj);
+            request.Content = new StringContent(serialized, Encoding.UTF8, ACCEPT_VALUE);
+
+            // Send and receive request
+            var response = await _client.SendAsync(request);
+            var responseString = await response.Content.ReadAsStreamAsync();
         }
 
         private HttpRequestMessage SetHeaders(HttpRequestMessage request)
