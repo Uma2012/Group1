@@ -83,7 +83,14 @@ namespace Group1.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdateDeliveryStatus(IFormCollection form)
         {
-           
+            var orderIdFromForm = 2;
+            var deliverstatusFromForm = true;
+            var orderTobeUpdated = new Order()
+            {
+                Id = orderIdFromForm,
+                Deliverd = deliverstatusFromForm
+            };
+            await _orderService.UpdateDeliveryStatus(orderTobeUpdated, $"{_orderServiceRootUrl}/api/order/UpdateOrderDeliveryStatus?id={orderIdFromForm}");
             return View();
         }
     }
