@@ -37,6 +37,19 @@ namespace Group1.Web.Services
 
             return null;
         }
+
+        public async Task<T> GetOneAsync<T>(string webServicePath) where T : class
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, webServicePath);
+            request = SetHeaders(request);
+            var response = await _client.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                return await DeserializeResponse<T>(response);
+            }
+            return null;
+        }
+
         public async Task PostAsync<T>(T obj, string webServicePath)
         {
 
