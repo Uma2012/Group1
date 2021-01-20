@@ -59,5 +59,11 @@ namespace Product.Service.Controllers
             }
             return Ok(product);
         }
+
+        [HttpPut]
+        public ActionResult<Models.Product> UpdateQuantity()
+        {
+
+        }
     }
 }

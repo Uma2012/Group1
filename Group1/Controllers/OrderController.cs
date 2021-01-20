@@ -15,14 +15,18 @@ namespace Group1.Web.Controllers
     {
         private readonly string _cartName;
         private readonly OrderServiceHandler _orderService;
+        private readonly ProductServiceHandler _productService;
         private readonly UserManager<CustomUser> _userManager;
         private readonly string _orderServiceRootUrl;
-        public OrderController(OrderServiceHandler productServiceHandler, IConfiguration config, UserManager<CustomUser> userManager)
+        private readonly string _productServiceRootUrl;
+        public OrderController(OrderServiceHandler orderServiceHandler, IConfiguration config, UserManager<CustomUser> userManager, ProductServiceHandler productServiceHandler)
         {
-            _orderService = productServiceHandler;
+            _orderService = orderServiceHandler;
+            _productService = productServiceHandler;
             this._userManager = userManager;
             _orderServiceRootUrl = config["OrderServiceURL"];
             this._cartName = config["CartSessionCookie:Name"];
+            _productServiceRootUrl = config["ProductServiceURL"];
 
         }
 
@@ -43,6 +47,7 @@ namespace Group1.Web.Controllers
             };
 
             await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
+            await _productService.UpdateProductQuantity(cart, $"{_productServiceRootUrl}/api/product/Updatequantity"); 
 
             order.Street = user.Street;
             order.City = user.City;

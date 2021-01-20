@@ -18,9 +18,7 @@ namespace Group1.Web.Controllers
         public ProductController(ProductServiceHandler productServiceHandler, IConfiguration config)
         {
             _productService = productServiceHandler;
-            _productServiceRootUrl = config["ProductServiceURL"];
-            //_productServiceRootUrl = config.GetValue(typeof(string), "ProductServiceURL").ToString();
-
+            _productServiceRootUrl = config["ProductServiceURL"];           
 
         }
 

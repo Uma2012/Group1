@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -46,6 +47,20 @@ namespace Group1.Web.Services
                 return await DeserializeResponse<T>(response);
             }
             return null;
+        }
+
+        public async Task UpdateProductQuantity<T>(T obj, string webServicepath)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Put, webServicepath);
+            request = SetHeaders(request);
+
+            // Serialize object to JSON
+            var serialized = JsonSerializer.Serialize(obj);
+            request.Content = new StringContent(serialized, Encoding.UTF8, ACCEPT_VALUE);
+
+            // Send and receive request
+            var response = await _client.SendAsync(request);
+            var responseString = await response.Content.ReadAsStreamAsync();
         }
 
         private HttpRequestMessage SetHeaders(HttpRequestMessage request)
