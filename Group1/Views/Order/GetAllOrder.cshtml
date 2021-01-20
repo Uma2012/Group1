@@ -12,10 +12,10 @@
         <thead>
             <tr>
                 <th>
-                    <p>OrderId</p>
+                    OrderId
                 </th>
                 <th>
-                    Delivery status
+                    Current Delivery status
                 </th>
                 <th>
                     Change status
@@ -34,11 +34,11 @@
 
                 <td>
                     <span>
-                         not deliverd
+                         Not delivered
                     </span>
                 </td>
                 <td>
-                    <input type="submit" name="DeliveryStatus" value="Move to deliverd" class="btn btn-primary" asp-action="UpdateDeliveryStatus" asp-controller="Order" asp-route-orderId="@item.Id" />
+                    <input type="submit" name="DeliveryStatus" value=" Change to Delivered   " class="btn btn-primary" asp-action="UpdateDeliveryStatus" asp-controller="Order" asp-route-orderId="@item.Id" />
                 </td>
                 }
 
@@ -50,11 +50,11 @@
 
                 <td>
                     <span>
-                        deliverd
+                        Delivered
                     </span>
                 </td>
                 <td>
-                    <input type="submit" name="DeliveryStatus" value="Move to not deliverd" class="btn btn-primary" asp-action="UpdateDeliveryStatus" asp-controller="Order" asp-route-orderId="@item.Id" />
+                    <input type="submit" name="DeliveryStatus" value="Change to Not-Delivered" class="btn btn-primary" asp-action="UpdateDeliveryStatus" asp-controller="Order" asp-route-orderId="@item.Id" />
                 </td>
                 }
 
