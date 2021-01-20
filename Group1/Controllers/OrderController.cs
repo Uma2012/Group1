@@ -87,17 +87,14 @@ namespace Group1.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> UpdateDeliveryStatus(IFormCollection form)
+        public async Task<ActionResult> UpdateDeliveryStatus(int orderId)
         {
-            //   *****Commented merged Conflict*****
-            //var orderIdFromForm = 2;
-            //var deliverstatusFromForm = true;
-            //var orderTobeUpdated = new Order()
-            //{
-            //    Id = orderIdFromForm,
-            //    Deliverd = deliverstatusFromForm
-            //};
-            //await _orderService.UpdateDeliveryStatus(orderTobeUpdated, $"{_orderServiceRootUrl}/api/order/UpdateOrderDeliveryStatus?id={orderIdFromForm}");
+
+            var order = await _orderService.GetOneAsync<Models.Order>($"{_orderServiceRootUrl}/api/order/Getone?id={orderId}");
+            order.Deliverd = !order.Deliverd;
+
+            await _orderService.UpdateDeliveryStatus(order, $"{_orderServiceRootUrl}/api/order/UpdateOrderDeliveryStatus?id={orderId}");
+
             return View();
         }
 
