@@ -103,18 +103,34 @@ namespace Order.Service.Repositories
                     _context.Orders.Remove(order);
                     _context.SaveChanges();
                 }
-                //var orderItems = GetOrderItemsOfGivenOrderId(orderId);
-                //if (orderItems != null)
-                //{
-                //    _context.OrderItems.RemoveRange(orderItems);
-                //    _context.SaveChanges();
-                //}
+               
             }
             catch
             {
                 return null;
             }
             return order;
+        }
+
+        public Models.Order UpdateOrder(Models.Order order)
+        {
+            var getOrder = GetOrderById(order.Id);
+            try
+            {
+                if (getOrder != null)
+                {
+                    getOrder.Deliverd = order.Deliverd;
+                    _context.Orders.Update(getOrder);
+                    _context.SaveChanges();
+                }
+                else
+                    return null;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+            return getOrder;
         }
 
         //public List<Models.OrderItem> GetOrderItemsOfGivenOrderId(int orderId)

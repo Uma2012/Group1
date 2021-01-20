@@ -73,5 +73,19 @@ namespace Order.Service.Controllers
 
         }
 
+        [HttpPut]
+        public ActionResult<Models.Order> UpdateOrderDeliveryStatus(int id,Models.Order order)
+        {
+            if (order.Id != id)
+                return BadRequest();
+          
+              var  updatedOrder = _orderRepository.UpdateOrder(order);           
+            
+            if (updatedOrder != null)
+                return Ok(updatedOrder);
+            else
+                return NotFound();
+        }
+
     }
 }

@@ -12,6 +12,7 @@ namespace Order.Service.Repositories
         public List<Models.Order> GetByDeliveryStatus(bool delivery);       
         public Models.Order Create(Models.Cart cart);
         public Models.Order Delete(int orderId);
+        public Models.Order UpdateOrder(Models.Order order);
         
     }
 }
