@@ -53,16 +53,16 @@ namespace Group1.Web.Services
 
         }
 
-        public async Task<T> DeleteOneAsync<T>(string webServicePath) where T : class
+        public async Task<bool> DeleteOneAsync<T>(string webServicePath) where T : class
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, webServicePath);
             request = SetHeaders(request);
             var response = await _client.SendAsync(request);
             if (response.IsSuccessStatusCode)
             {
-                return await DeserializeResponse<T>(response);
+                return true;
             }
-            return null;
+            return false;
         }
 
         public async Task UpdateDeliveryStatus<T>(T obj, string webServicepath)
