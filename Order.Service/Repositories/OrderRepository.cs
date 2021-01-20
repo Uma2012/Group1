@@ -78,10 +78,11 @@ namespace Order.Service.Repositories
                         //}
                         //_ = orderItem ?? throw new ArgumentException("orderItem shouldn't be null", nameof(orderItem));
                         
-                        _context.OrderItems.AddRange(orderItemLists);
-                        _context.SaveChanges();
-                        transaction.Complete();
+                       
                     }
+                    _context.OrderItems.AddRange(orderItemLists);
+                    _context.SaveChanges();
+                    transaction.Complete();
                 }
             }
             catch (Exception e)
