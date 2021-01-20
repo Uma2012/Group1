@@ -104,6 +104,8 @@ namespace Order.Service.Repositories
                     _context.Orders.Remove(order);
                     _context.SaveChanges();
                 }
+                else
+                    return null;
                
             }
             catch

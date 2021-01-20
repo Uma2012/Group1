@@ -1,4 +1,6 @@
 using ProductsService.Tests;
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -110,42 +112,60 @@ namespace Products.Service.Tests
                 HttpContent content = new StringContent(product, Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync($"/api/product/createproduct", content);
+                Product.Service.Models.Product newProduct = null;
 
-                //Add product
-                var responseStream = await response.Content.ReadAsStreamAsync();
-                var newProduct = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(responseStream,
-                    new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                using (var responseStream = await response.Content.ReadAsStreamAsync())
+                {
+                   newProduct = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(responseStream,
+                                new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                }
 
                 //Delete product 
-                var deleteresponse = await client.DeleteAsync($"/api/product/{newProduct.Id}");
+                var deleteresponse = await client.DeleteAsync($"/api/product/DeleteProduct?productId={newProduct.Id}");
+                using (var responseStream = await deleteresponse.Content.ReadAsStreamAsync())
+                {
+                    var deletedProduct = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(responseStream,
+                       new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
-                var deleteResponseStream = await deleteresponse.Content.ReadAsStreamAsync();
-                var deletedProduct = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(deleteResponseStream,
-                    new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    Assert.Equal(newProduct.Id, deletedProduct.Id);
+                }
 
-                Assert.Equal(newProduct.Id, deletedProduct.Id);
+                  
+
+              
             }
         }
-        //[Fact]
-        //public async Task UpdateProduct_Returns_UpdatedProduct()
-        //{
-        //    var product = JsonSerializer.Serialize(new Product.Service.Models.Product()
-        //    {
-        //        Name = "UppdateraProdukt",
-        //        Quantity = 10,
-        //        Price = 100,
-        //        ImageUrl = "https://thumbs.dreamstime.com/b/uppdatera-f%C3%B6rnya-symbolen-den-glas-gr%C3%A4splanrundaknappen-97687883.jpg",
-        //        Description = ""
-        //    });
 
-        //    HttpContent content = new StringContent(product, Encoding.UTF8, "application/json");
+        [Fact]
+        public async Task UpdateProduct_Returns_OK()
+        {
+            using (var client = new TestClientProvider().Client)
+            {
+                var product1 = new Product.Service.Models.Product() { Id = 1, Price = 50, Quantity = 10 };
+                var product2 = new Product.Service.Models.Product() { Id = 2, Price = 75, Quantity = 15 };
 
-        //    var response = await client.PostAsync($"/api/product/createproduct", content);
+                var cartItems = new List<Product.Service.Models.CartItem>()
+                { new Product.Service.Models.CartItem(){Product=product1,Quantity=1},
+                  new Product.Service.Models.CartItem(){Product=product2,Quantity=2}
+                };
 
-        //    var responseStream = await response.Content.ReadAsStreamAsync();
-        //    var newProduct = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(responseStream,
-        //        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-        //}
+                var payload = JsonSerializer.Serialize(new Product.Service.Models.ShoppingCart()
+                {
+                    cartItems = cartItems                }
+                );
+
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"/api/product/UpdateQuantity", content);
+
+                using (var responseStream = await response.Content.ReadAsStreamAsync())
+                {                   
+
+                    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                }
+            }
+        }
     }
 }
 

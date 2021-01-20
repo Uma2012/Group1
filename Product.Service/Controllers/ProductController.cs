@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Product.Service.Models;
 using ProductsService.Models;
 using System;
 using System.Collections.Generic;
@@ -50,20 +51,24 @@ namespace Product.Service.Controllers
         }
 
         [HttpDelete]
-        public ActionResult<Models.Product> DeleteProduct(Models.Product product)
+        public ActionResult<Models.Product> DeleteProduct(int productId)
         {
-            var deletedProduct = _productRepository.Delete(product);
+            var deletedProduct = _productRepository.Delete(productId);
             if (deletedProduct == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            return Ok(product);
+            return Ok(deletedProduct);
         }
 
         [HttpPut]
-        public ActionResult<Models.Product> UpdateQuantity()
+        public ActionResult UpdateQuantity(ShoppingCart cart)
         {
-
+            var isProductQuantityUpdated = _productRepository.Update(cart);
+            if (isProductQuantityUpdated)
+                return Ok();
+            else
+            return BadRequest();
         }
     }
 }

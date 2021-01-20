@@ -35,13 +35,33 @@ namespace ProductsService.Models
 
             return product;
         }
-        public Product.Service.Models.Product Delete(Product.Service.Models.Product product)
+        public Product.Service.Models.Product Delete(int productId)
         {
-            _context.Products.Remove(product);
+            var productDb = GetById(productId);
+
+            _context.Products.Remove(productDb);
             _context.SaveChanges();
 
-            return product;
+            return productDb;
         }
 
+        public bool Update(Product.Service.Models.ShoppingCart cart)
+        {
+            try
+            {
+                foreach (var product in cart.cartItems)
+                {
+                    var productDb = GetById(product.Product.Id);
+                    productDb.Quantity = product.Product.Quantity - product.Quantity;
+                    _context.Products.Update(productDb);
+                    _context.SaveChanges();                  
+                }
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

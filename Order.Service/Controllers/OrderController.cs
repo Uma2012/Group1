@@ -61,12 +61,12 @@ namespace Order.Service.Controllers
         }
 
         [HttpDelete]
-        public ActionResult<Models.Order> DeleteOrder(int orderId)
+        public ActionResult<int> DeleteOrder(int orderId)
         {
             var deletedorder = _orderRepository.Delete(orderId);
             if (deletedorder!=null)
             {
-                return Ok(deletedorder);
+                return Ok(deletedorder.Id);
             }
             else
                 return NotFound();

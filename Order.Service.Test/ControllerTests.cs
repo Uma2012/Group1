@@ -85,14 +85,10 @@ namespace Order.Service.Test
                           new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
                 }
-                var deleteResponse = await client.DeleteAsync($"/api/order/deleteorder?orderId={order.Id}");
-                using (var responseStream = await deleteResponse.Content.ReadAsStreamAsync())
-                {
-                    var deletedId = await JsonSerializer.DeserializeAsync<int>(responseStream,
-                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                var deleteResponse = await client.DeleteAsync($"/api/order/deleteorder?orderId={order.Id}");               
 
-                    Assert.Equal(order.Id, deletedId);
-                }
+                Assert.Equal(HttpStatusCode.NotFound,deleteResponse.StatusCode);
+                
 
             }
         }
