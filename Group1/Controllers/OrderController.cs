@@ -74,7 +74,7 @@ namespace Group1.Web.Controllers
                 item.LastName = user.LastName;
             }
 
-            SetCurrentDeliveryStatus();
+            //SetCurrentDeliveryStatus();
             return View(allorders);
         }
 
@@ -98,22 +98,22 @@ namespace Group1.Web.Controllers
             return View();
         }
 
-        private void SetCurrentDeliveryStatus()
-        {
-            List<SelectListItem> DeliveryStatus = new List<SelectListItem>();
-            DeliveryStatus.Add(new SelectListItem
-            {
-                Text = "No",
-                Value = bool.FalseString
+        //private void SetCurrentDeliveryStatus()
+        //{
+        //    List<SelectListItem> DeliveryStatus = new List<SelectListItem>();
+        //    DeliveryStatus.Add(new SelectListItem
+        //    {
+        //        Text = "No",
+        //        Value = bool.FalseString
 
-            });
-            DeliveryStatus.Add(new SelectListItem
-            {
-                Text = "Yes",
-                Value = bool.TrueString
-            });
-            ViewData["DeliveryStatus"] = DeliveryStatus;
-        }
+        //    });
+        //    DeliveryStatus.Add(new SelectListItem
+        //    {
+        //        Text = "Yes",
+        //        Value = bool.TrueString
+        //    });
+        //    ViewData["DeliveryStatus"] = DeliveryStatus;
+        //}
     }
 
 }
