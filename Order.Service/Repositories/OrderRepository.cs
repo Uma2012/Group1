@@ -64,20 +64,14 @@ namespace Order.Service.Repositories
 
 
                     foreach (var item in cart.CartItems)
-                    {
-                        //    if (item.Product.Quantity > item.Quantity)
-                        //    {
+                    {                        
                         orderItem = new Models.OrderItem()
                             {
                                 OrderId = newOrder.Id,
                                 ProductId = item.Product.Id,
                                 Quantity = item.Quantity
                             };
-                            orderItemLists.Add(orderItem);
-                           
-                        //}
-                        //_ = orderItem ?? throw new ArgumentException("orderItem shouldn't be null", nameof(orderItem));
-                        
+                            orderItemLists.Add(orderItem);                        
                        
                     }
                     _context.OrderItems.AddRange(orderItemLists);

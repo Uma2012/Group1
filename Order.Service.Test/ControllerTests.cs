@@ -157,9 +157,33 @@ namespace Order.Service.Test
         public async Task UpdateOrder_Returns_Ok()
         {
             using (var client = new TestClientProvider().Client)
-            {               
+            {
+                var product1 = new Models.Product() { Id = 1, Price = 50, Quantity = 10 };
+                var product2 = new Models.Product() { Id = 2, Price = 75, Quantity = 15 };
+
+                var cartItems = new List<Models.CartItem>()
+                {
+                   new Models.CartItem(){Product=product1,Quantity=1},
+                   new Models.CartItem(){Product=product2,Quantity=2}
+                };
+
+                var payload = JsonSerializer.Serialize(new Models.Cart()
+                {
+                    UserId = Guid.NewGuid(),
+                    PaymentId = 2,
+                    DeliveryId = 2,
+                    CartItems = cartItems
+                }
+                );
+
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync($"/api/order/createorder", content);
+            }
+                using (var client = new TestClientProvider().Client)
+                {               
                 int updatedOrderId = 0;
-                int orderId = 2;
+                int orderId = 1;
                 bool deliverStatus = true;
 
                 var payload = JsonSerializer.Serialize(new Models.Order()
