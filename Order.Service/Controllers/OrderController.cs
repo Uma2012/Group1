@@ -26,7 +26,6 @@ namespace Order.Service.Controllers
                 return NotFound();
             }
             return Ok(orders);
-
         }
 
         [HttpGet]
@@ -70,7 +69,6 @@ namespace Order.Service.Controllers
             }
             else
                 return NotFound();
-
         }
 
         [HttpPut]

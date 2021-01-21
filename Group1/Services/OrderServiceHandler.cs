@@ -50,7 +50,7 @@ namespace Group1.Web.Services
             return null;
         }
 
-        public async Task PostAsync<T>(T obj, string webServicePath)
+        public async Task<T> PostAsync<T>(T obj, string webServicePath) where T:class
         {
 
             var request = new HttpRequestMessage(HttpMethod.Post, webServicePath);
@@ -62,7 +62,12 @@ namespace Group1.Web.Services
 
             // Send and receive request
             var response = await _client.SendAsync(request);
-            var responseString = await response.Content.ReadAsStreamAsync();
+            if(response.IsSuccessStatusCode)
+            {
+                return await DeserializeResponse<T>(response);
+            }
+            
+            return null;
 
         }
 

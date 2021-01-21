@@ -26,8 +26,7 @@ namespace Group1
         {
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
-            {
-                //options.Cookie.Name = ".AdventureWorks.Session";
+            {                
                 options.IdleTimeout = TimeSpan.FromMinutes(20);
                 options.Cookie.IsEssential = true;
             });
@@ -70,7 +69,6 @@ namespace Group1
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
-
 
             app.UseEndpoints(endpoints =>
             {

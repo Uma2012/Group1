@@ -49,7 +49,7 @@ namespace Group1.Web.Services
             return null;
         }
 
-        public async Task UpdateProductQuantity<T>(T obj, string webServicepath)
+        public async Task<bool> UpdateProductQuantity<T>(T obj, string webServicepath)
         {
             var request = new HttpRequestMessage(HttpMethod.Put, webServicepath);
             request = SetHeaders(request);
@@ -60,7 +60,11 @@ namespace Group1.Web.Services
 
             // Send and receive request
             var response = await _client.SendAsync(request);
-            var responseString = await response.Content.ReadAsStreamAsync();
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
+            
         }
 
         private HttpRequestMessage SetHeaders(HttpRequestMessage request)

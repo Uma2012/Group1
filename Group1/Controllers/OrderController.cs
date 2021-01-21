@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -38,23 +37,20 @@ namespace Group1.Web.Controllers
 
             var order = new Order()
             {
-                CartItems = cart.cartItems,                
+                CartItems = cart.cartItems,
                 UserId = Guid.Parse(user.Id),
                 TotalPrice = cart.TotalPrice,
                 Deliverd = false,
                 DeliveryId = int.Parse(form["deliveryMethod"]),
                 PaymentId = int.Parse(form["Paymentmethod"]),
-                Address= user.Street + user.City+ user.PostalCode
+                Address = user.Street + user.City + user.PostalCode
             };
 
-            await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
-            await _productService.UpdateProductQuantity(cart, $"{_productServiceRootUrl}/api/product/Updatequantity"); 
+            var createdorder = await _orderService.PostAsync(order, $"{_orderServiceRootUrl}/api/order/createorder");
+            var isQuantityUpdated = await _productService.UpdateProductQuantity(cart, $"{_productServiceRootUrl}/api/product/Updatequantity");
 
-            order.Street = user.Street;
-            order.City = user.City;
-            order.PostalCode = user.PostalCode;
-            order.FirstName = user.FirstName;
-            order.LastName = user.LastName;
+            order.User = user;
+            order.Id = createdorder.Id;
 
             //Clear the session cookies once the order is created
             if (HttpContext.Session.GetString(_cartName) != null)
@@ -68,21 +64,15 @@ namespace Group1.Web.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             List<Models.Order> allorders = await _orderService.GetAllAsync<Models.Order>($"{_orderServiceRootUrl}/api/order/getallorders");
-            foreach (var item in allorders)
-            {
-                item.FirstName = user.FirstName;
-                item.LastName = user.LastName;
-            }
 
-            //SetCurrentDeliveryStatus();
             return View(allorders);
         }
 
         [Authorize]
         public async Task<ActionResult> DeleteOrder(int orderId)
         {
-            await _orderService.DeleteOneAsync<Models.Order>($"{_orderServiceRootUrl}/api/order/DeleteOrder?orderId=" +orderId);
-            return RedirectToAction("GetAllOrder","Order");
+            await _orderService.DeleteOneAsync<Models.Order>($"{_orderServiceRootUrl}/api/order/DeleteOrder?orderId=" + orderId);
+            return RedirectToAction("GetAllOrder", "Order");
         }
 
         [Authorize]
@@ -98,22 +88,7 @@ namespace Group1.Web.Controllers
             return View();
         }
 
-        //private void SetCurrentDeliveryStatus()
-        //{
-        //    List<SelectListItem> DeliveryStatus = new List<SelectListItem>();
-        //    DeliveryStatus.Add(new SelectListItem
-        //    {
-        //        Text = "No",
-        //        Value = bool.FalseString
 
-        //    });
-        //    DeliveryStatus.Add(new SelectListItem
-        //    {
-        //        Text = "Yes",
-        //        Value = bool.TrueString
-        //    });
-        //    ViewData["DeliveryStatus"] = DeliveryStatus;
-        //}
     }
 
 }

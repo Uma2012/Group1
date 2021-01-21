@@ -3,28 +3,6 @@
 @{
     ViewData["Title"] = "Details";
 }
-@*<center>
-        <h1>Details</h1>
-        <hr />
-        <div>
-            <h4>@Model.Name</h4>
-            <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Name" style="width:300px;"><br />
-            <b>Price: </b>@Model.Price SEK<br />
-            <b>Description: </b>@Model.Description<br />
-            <b>Availability: </b>@Model.Availability
-
-        </div>
-        @if (Model.Availability)
-        {
-        <form method="post">
-                <br />
-                <input value="Add to cart" type="submit" asp-action="AddToCart" asp-controller="Shoppingcart" asp-route-productid="@Model.Id" class="btn btn-dark" /><br />
-                <br />
-        </form>
-        }
-        <a class="text-muted" asp-controller="Product" asp-action="GetAllProducts">Back to list</a>
-
-    </center>*@
 
 <h1>ProductDetails</h1>
 <div class="container">
@@ -40,6 +18,7 @@
                 <b>Description: </b>@Model.Description<br />
                 <b>Price: </b>@Model.Price SEK<br />
                 <b>Available: </b>@Html.DisplayFor(x=>x.Availability)
+                <b>Stock:@Html.DisplayFor(x=>x.Quantity)</b>
 
                 <div class="text-center">
                     <button onclick="history.back()" class="btn btn-dark">Back</button>

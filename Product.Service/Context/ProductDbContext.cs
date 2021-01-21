@@ -38,7 +38,7 @@ namespace Product.Service.Context
                     Id= 1,
                     Name="Frozen cheescake",
                     Price= 50,
-                    Quantity= 10,
+                    Quantity= 2,
                     ImageUrl = @"/Images/Frozen Cheesecake.jpg",
                     Description ="Frozen Cheesecake with blueberries. Contains gluten, milk and eggs." 
                 },
