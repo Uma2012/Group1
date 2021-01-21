@@ -1,5 +1,4 @@
 using ProductsService.Tests;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -116,8 +115,8 @@ namespace Products.Service.Tests
 
                 using (var responseStream = await response.Content.ReadAsStreamAsync())
                 {
-                   newProduct = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(responseStream,
-                                new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    newProduct = await JsonSerializer.DeserializeAsync<Product.Service.Models.Product>(responseStream,
+                                 new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
                 }
 
@@ -131,9 +130,9 @@ namespace Products.Service.Tests
                     Assert.Equal(newProduct.Id, deletedProduct.Id);
                 }
 
-                  
 
-              
+
+
             }
         }
 
@@ -152,7 +151,8 @@ namespace Products.Service.Tests
 
                 var payload = JsonSerializer.Serialize(new Product.Service.Models.ShoppingCart()
                 {
-                    cartItems = cartItems                }
+                    cartItems = cartItems
+                }
                 );
 
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
@@ -160,7 +160,7 @@ namespace Products.Service.Tests
                 var response = await client.PutAsync($"/api/product/UpdateQuantity", content);
 
                 using (var responseStream = await response.Content.ReadAsStreamAsync())
-                {                   
+                {
 
                     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
                 }

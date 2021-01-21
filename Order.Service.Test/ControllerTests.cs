@@ -67,29 +67,74 @@ namespace Order.Service.Test
         }
 
         [Fact]
-        public async Task DeleteOrder_Returns_Notfound()
+        public async Task GetAllOrders_Succeed()
         {
             using (var client = new TestClientProvider().Client)
             {
-                var payload = JsonSerializer.Serialize(new Models.Cart());
+                var response = await client.GetAsync("/api/order/getallorders");
+
+                response.EnsureSuccessStatusCode();
+
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            }
+        }
+
+
+        [Fact]
+        public async Task UpdateOrder_Returns_BadRequest()
+        {
+            using (var client = new TestClientProvider().Client)
+            {
+                int orderId = 1;
+                bool deliverStatus = true;
+
+                var payload = JsonSerializer.Serialize(new Models.Order()
+                {
+                    Id = orderId,
+                    Deliverd = deliverStatus
+                }
+                );
 
                 HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync($"/api/order/createorder", content);
-
-                Models.Order order = null;
+                var response = await client.PutAsync($"/api/order/UpdateOrderDeliveryStatus?id={orderId + 1}", content);
 
                 using (var responseStream = await response.Content.ReadAsStreamAsync())
                 {
-                    order = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
-                          new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    var order = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
+                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
+                    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
                 }
-                var deleteResponse = await client.DeleteAsync($"/api/order/deleteorder?orderId={order.Id}");               
+            }
+        }
 
-                Assert.Equal(HttpStatusCode.NotFound,deleteResponse.StatusCode);
-                
+        [Fact]
+        public async Task UpdateOrder_Returns_NotFound()
+        {
+            using (var client = new TestClientProvider().Client)
+            {
+                int orderId = 500;
+                bool deliverStatus = true;
 
+                var payload = JsonSerializer.Serialize(new Models.Order()
+                {
+                    Id = orderId,
+                    Deliverd = deliverStatus
+                }
+                );
+
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                var response = await client.PutAsync($"/api/order/UpdateOrderDeliveryStatus?id={orderId}", content);
+
+                using (var responseStream = await response.Content.ReadAsStreamAsync())
+                {
+                    var order = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
+                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+                }
             }
         }
 
@@ -141,18 +186,31 @@ namespace Order.Service.Test
         }
 
         [Fact]
-        public async Task GetAllOrders_Succeed()
+        public async Task DeleteOrder_Returns_Notfound()
         {
             using (var client = new TestClientProvider().Client)
             {
-                var response = await client.GetAsync("/api/order/getallorders");
+                var payload = JsonSerializer.Serialize(new Models.Cart());
 
-                response.EnsureSuccessStatusCode();
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
 
-                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                var response = await client.PostAsync($"/api/order/createorder", content);
+
+                Models.Order order = null;
+
+                using (var responseStream = await response.Content.ReadAsStreamAsync())
+                {
+                    order = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
+                          new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                }
+                var deleteResponse = await client.DeleteAsync($"/api/order/deleteorder?orderId={order.Id}");
+
+                Assert.Equal(HttpStatusCode.NotFound, deleteResponse.StatusCode);
+
+
             }
         }
-
         [Fact]
         public async Task UpdateOrder_Returns_Ok()
         {
@@ -180,16 +238,16 @@ namespace Order.Service.Test
 
                 var response = await client.PostAsync($"/api/order/createorder", content);
             }
-                using (var client = new TestClientProvider().Client)
-                {               
+            using (var client = new TestClientProvider().Client)
+            {
                 int updatedOrderId = 0;
                 int orderId = 1;
                 bool deliverStatus = true;
 
                 var payload = JsonSerializer.Serialize(new Models.Order()
                 {
-                   Id=orderId,
-                   Deliverd=deliverStatus
+                    Id = orderId,
+                    Deliverd = deliverStatus
                 }
                 );
 
@@ -204,63 +262,6 @@ namespace Order.Service.Test
 
                     updatedOrderId = order.Id;
                     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-                }
-            }
-        }
-        [Fact]
-        public async Task UpdateOrder_Returns_BadRequest()
-        {
-            using (var client = new TestClientProvider().Client)
-            {                
-                int orderId = 1;
-                bool deliverStatus = true;
-
-                var payload = JsonSerializer.Serialize(new Models.Order()
-                {
-                    Id = orderId,
-                    Deliverd = deliverStatus
-                }
-                );
-
-                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
-
-                var response = await client.PutAsync($"/api/order/UpdateOrderDeliveryStatus?id={orderId+1}", content);
-
-                using (var responseStream = await response.Content.ReadAsStreamAsync())
-                {
-                    var order = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
-                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                    
-                    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-                }
-            }
-        }
-
-        [Fact]
-        public async Task UpdateOrder_Returns_NotFound()
-        {
-            using (var client = new TestClientProvider().Client)
-            {                
-                int orderId = 500;
-                bool deliverStatus = true;
-
-                var payload = JsonSerializer.Serialize(new Models.Order()
-                {
-                    Id = orderId,
-                    Deliverd = deliverStatus
-                }
-                );
-
-                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
-
-                var response = await client.PutAsync($"/api/order/UpdateOrderDeliveryStatus?id={orderId}", content);
-
-                using (var responseStream = await response.Content.ReadAsStreamAsync())
-                {
-                    var order = await JsonSerializer.DeserializeAsync<Models.Order>(responseStream,
-                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                    
-                    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
                 }
             }
         }
