@@ -15,6 +15,12 @@
                     OrderId
                 </th>
                 <th>
+                    UserID
+                </th>
+                <th>
+                    Order date
+                </th>
+                <th>
                     Current Delivery status
                 </th>
                 <th>
@@ -28,34 +34,44 @@
             <tr>
                 @if (!item.Deliverd)
                 {
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-
-                <td>
-                    <span>
-                         Not delivered
-                    </span>
-                </td>
-                <td>
-                    <input type="submit" name="DeliveryStatus" value=" Change to Delivered   " class="btn btn-primary" asp-action="UpdateDeliveryStatus" asp-controller="Order" asp-route-orderId="@item.Id" />
-                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.OrderDate)
+                    </td>
+                    <td>
+                        <span>
+                            Not delivered
+                        </span>
+                    </td>
+                    <td>
+                        <input type="submit" name="DeliveryStatus" value=" Change to Delivered   " class="btn btn-primary" asp-action="UpdateDeliveryStatus" asp-controller="Order" asp-route-orderId="@item.Id" />
+                    </td>
                 }
 
                 @if (item.Deliverd)
                 {
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-
-                <td>
-                    <span>
-                        Delivered
-                    </span>
-                </td>
-                <td>
-                    <input type="submit" name="DeliveryStatus" value="Change to Not-Delivered" class="btn btn-primary" asp-action="UpdateDeliveryStatus" asp-controller="Order" asp-route-orderId="@item.Id" />
-                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.OrderDate)
+                    </td>
+                    <td>
+                        <span>
+                            Delivered
+                        </span>
+                    </td>
+                    <td>
+                        <input type="submit" name="DeliveryStatus" value="Change to Not-Delivered" class="btn btn-primary" asp-action="UpdateDeliveryStatus" asp-controller="Order" asp-route-orderId="@item.Id" />
+                    </td>
                 }
 
                 <td>
