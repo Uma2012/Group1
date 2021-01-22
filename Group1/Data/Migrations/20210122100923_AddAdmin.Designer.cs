@@ -4,14 +4,16 @@ using Group1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Group1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210122100923_AddAdmin")]
+    partial class AddAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,16 +106,16 @@ namespace Group1.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ba6c021f-02fa-46da-ab5b-bcf7e71c5ff4",
+                            Id = "d25316c5-e4c8-465a-9cd8-cb3392b07f0f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8e259e0b-a622-4e79-8fb0-f11609afdfd8",
+                            ConcurrencyStamp = "55babb5b-fb6f-4b69-bd1f-f7046a21782c",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
-                            IsAdmin = true,
+                            IsAdmin = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@admin.com",
                             NormalizedUserName = "admin@admin.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDcLGIWNdYE3UnzG3QYOq1GTkrpXj1+LV7eBeT7IaQJq6X9XLWTjkvhHLwaGnGI1zA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK8rlWpiT4Cqz3izzyoasgXIAH/3SAaiSN1bOPG6vlpGz0/Q4XUWWuxdkG7IawPwKg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
